@@ -2,7 +2,7 @@
 
 class Connexion {
     
-    private static $host = "mysql:host=localhost;dbname=vehicules;charset=utf8";
+    private static $host = "mysql:host=localhost;dbname=RbnbLight;charset=utf8";
     private static $log = "root";
     private static $pass = "";
 

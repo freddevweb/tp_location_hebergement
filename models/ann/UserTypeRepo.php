@@ -1,9 +1,35 @@
 <?php
 
-class User {
+class UserTypeRepo {
    
+    private $connexion;
 
-    // *********** methodes
+    public function __construct($connexion){
+        $this->connexion = $connexion;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
 }
