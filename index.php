@@ -7,6 +7,9 @@ require "autoloader.php";
 Flight::render('nav', array('heading'=>'Hello'), "nav");
 Flight::render('footer', array('traduction'=>'cool'), "footer");
 
+/**
+ * Alfonso: bravo toi au moins t'es bien parti!
+ */
 
 Flight::route('/', function(){
     $page = "accueil";
