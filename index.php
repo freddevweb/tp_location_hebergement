@@ -10,6 +10,7 @@ Flight::render('footer', array('traduction'=>'cool'), "footer");
 /**
  * Alfonso: bravo toi au moins t'es bien parti!
  * Fred : merci mais c'est grace à ce que tu nous as appris. Le principe du tp c'est d'appliquer, pour ceux qui t'ont écouté en cours !!!
+ * Alfonso: lol. merci!
  */
 
 Flight::route('/', function(){
