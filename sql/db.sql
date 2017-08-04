@@ -45,7 +45,7 @@ CREATE TABLE annonce (
     sdb BOOLEAN,
     parking BOOLEAN,
     laveLinge BOOLEAN,
-    wifi BOOLEAN,
+	wifi BOOLEAN,
     hDepart TIME
 
 )ENGINE=InnoDb;
@@ -96,6 +96,13 @@ CREATE TABLE favoris (
 
 )ENGINE=InnoDb;
 
+
+CREATE TABLE nav (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    title varchar(255),
+    link varchar(255)
+)ENGINE=InnoDb;
 
 -- #######################################################
 -- #######################################################
@@ -155,6 +162,12 @@ ADD CONSTRAINT fk_favoris_user
     FOREIGN KEY (user_id) 
     REFERENCES user (id)
     ON DELETE CASCADE;
+    
+ALTER TABLE nav
+ADD CONSTRAINT fk_nav_user
+    FOREIGN KEY (user_id) 
+    REFERENCES user (id);
+
 
 -- #######################################################
 -- #######################################################
@@ -171,13 +184,63 @@ UNLOCK TABLES;
 
 LOCK TABLES user_type WRITE;
 INSERT INTO user_type VALUES
-(1,"admin"),
-(2,"moderateur"),
-(3,"loueur"),
+(1,"Admin"),
+(2,"Validator"),
+(3,"Loueur"),
 (4,"user");
 UNLOCK TABLES;
 
 LOCK TABLES user WRITE;
 INSERT INTO user VALUES
-(1,"fred", "fred@mail.com", 1, "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", now(), now());
+(1,"Frédéric", "fred@mail.com", 1, "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", now(), now());
 UNLOCK TABLES;
+
+
+--	id  /  user_id / title / link 
+LOCK TABLES nav WRITE;
+INSERT INTO nav VALUES
+(1,1,"Accounts", "link"),
+(2,1,"Admin", "link"),
+(3,1,"Validator", "link"),
+(4,1,"Loueur", "link"),
+(6,1,"Annonce", "link"),
+(7,1,"Lieu", "link"),
+(8,1,"Loueur", "link"),
+(9,1,"favoris", "link"),
+(10,1,"Commentaires", "link"),
+(11,1,"Annonce", "link"),
+(12,1,"Loueur", "link"),
+(13,1,"Locations", "link"),
+(13,1,"A venir", "link"),
+(13,1,"Locations", "link"),
+(13,1,"Locations", "link"),
+
+
+
+
+
+
+
+;
+UNLOCK TABLES;
+
+
+
+LOCK TABLES nav WRITE;
+INSERT INTO nav VALUES
+(1,1,"Accounts", "link"),
+(1,1,"title", "link"),
+(1,1,"title", "link"),
+(1,1,"title", "link"),
+(1,1,"title", "link");
+UNLOCK TABLES;
+
+
+
+
+
+
+
+
+
+

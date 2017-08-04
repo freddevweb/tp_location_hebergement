@@ -9,6 +9,7 @@ class DbManager {
     private $locationRepo;
     private $photoRepo;
     private $userRepo;
+    private $userTypeRepo;
 
 
     public function __construct(){

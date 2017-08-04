@@ -1,6 +1,6 @@
 <?php
 
-class Annonce {
+class Photo {
     
     private $id;
     private $annonceId;
