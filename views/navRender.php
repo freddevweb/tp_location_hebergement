@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">   
     <div class="navbar-header">   
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -10,15 +9,18 @@
     </div>
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-
+            <li> <a href="/">Vos biens</a> </li>
+            <li> <a href="/search">Demandes de locations</a> </li>
+            <li> <a href="/search">Planing des réservations</a> </li>
         </ul>
         <div class="navbar-right navbar-form inline-form">
-                <button type="button" data-toggle="modal" data-target="#login" class="btn btn-inverse navbar-btn btn-sm">Log in</button>
-                <button type="button" data-toggle="modal" data-target="#signin" class="btn btn-inverse navbar-btn btn-sm">Sign in</button>
+            <a href="#">
+                <span class="glyphicon glyphicon-user" title="Votre compte"></span>
+            </a>
+            <a href="#">
+                <span class="glyphicon glyphicon-share" title="Logout"></span>
+            </a>
         </div>
     </div>
 </nav>
-<?php
 
-require "modalLogin.php";
-require "modalSignin.php";

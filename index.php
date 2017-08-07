@@ -4,6 +4,7 @@ session_start();
 require 'flight/Flight.php';
 require "autoloader.php";
 
+Flight::render('header', array('heading'=>'RBNB'), "header");
 Flight::render('footer', array('traduction'=>'cool'), "footer");
 
 /**
@@ -15,7 +16,7 @@ Flight::render('footer', array('traduction'=>'cool'), "footer");
 
 
 Flight::route('/', function(){
-    $page = "accueil";
+
     $error = "";
     if( isset( $_SESSION["error"]) ){
         $error = $_SESSION["error"];
@@ -23,10 +24,9 @@ Flight::route('/', function(){
     
     $db = new DbManager();
 
-    Flight::render('header', array('heading'=>$page), "header");
+    
     Flight::render('nav', array('heading'=>'Hello'), "nav");
     Flight::render('accueil', array(
-        "title"=>$page,
         "error"=>$error
     ));
 
@@ -37,40 +37,37 @@ Flight::route('/', function(){
 
 
 
-Flight::route('/dashboardadmin', function(){
-    $page = "Ajouter une location";
+Flight::route('/dashboardAdmin', function(){
     
     //$db = new DbManager();
 
-    
-    Flight::render('header', array('heading'=>$page), "header");
-    Flight::render('dashboardadmin', array(
-        "title"=>$page
+    Flight::render('navAdmin', array('heading'=>'Hello'), "nav");
+    Flight::render('dashboardAdmin', array(
+
     ));
 
 });
 
-Flight::route('/dashboardcontroler', function(){
-    $page = "Ajouter une location";
+Flight::route('/dashboardControler', function(){
     
     //$db = new DbManager();
 
     
-    Flight::render('header', array('heading'=>$page), "header");
-    Flight::render('dashboardcontroler', array(
-        "title"=>$page
+    Flight::render('navControleur', array('heading'=>'Hello'), "nav");
+    Flight::render('dashboardControler', array(
+
     ));
 
 });
 
 
-Flight::route('/dashboardrender', function(){
-    $page = "Ajouter une location";
+Flight::route('/dashboardRender', function(){
+    
     
     //$db = new DbManager();
 
     
-    Flight::render('header', array('heading'=>$page), "header");
+    Flight::render('navRender', array('heading'=>'Hello'), "nav");
     Flight::render('dashboardrender', array(
         "title"=>$page
     ));
@@ -78,17 +75,6 @@ Flight::route('/dashboardrender', function(){
 });
 
 
-Flight::route('/addLocation', function(){
-    $page = "Ajouter une location";
-    
-    //$db = new DbManager();
-
-    Flight::render('header', array('heading'=>$page), "header");
-    Flight::render('accueil', array(
-        "title"=>$page
-    ));
-
-});
 
 Flight::route('POST /loginService', function(){
     $userEmail = $_POST['email'];
