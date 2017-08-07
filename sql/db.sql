@@ -196,49 +196,6 @@ INSERT INTO user VALUES
 UNLOCK TABLES;
 
 
---	id  /  user_id / title / link 
-LOCK TABLES nav WRITE;
-INSERT INTO nav VALUES
-(1,1,"Accounts", "link"),
-(2,1,"Admin", "link"),
-(3,1,"Validator", "link"),
-(4,1,"Loueur", "link"),
-(6,1,"Annonce", "link"),
-(7,1,"Lieu", "link"),
-(8,1,"Loueur", "link"),
-(9,1,"favoris", "link"),
-(10,1,"Commentaires", "link"),
-(11,1,"Annonce", "link"),
-(12,1,"Loueur", "link"),
-(13,1,"Locations", "link"),
-(13,1,"A venir", "link"),
-(13,1,"Locations", "link"),
-(13,1,"Locations", "link"),
-
-
-
-
-
-
-
-;
-UNLOCK TABLES;
-
-
-
-LOCK TABLES nav WRITE;
-INSERT INTO nav VALUES
-(1,1,"Accounts", "link"),
-(1,1,"title", "link"),
-(1,1,"title", "link"),
-(1,1,"title", "link"),
-(1,1,"title", "link");
-UNLOCK TABLES;
-
-
-
-
-
 
 
 
