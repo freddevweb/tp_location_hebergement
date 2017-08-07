@@ -46,6 +46,8 @@ CREATE TABLE annonce (
     parking BOOLEAN,
     laveLinge BOOLEAN,
 	wifi BOOLEAN,
+    hCleDebut time,
+    hClefin time,
     hDepart TIME
 
 )ENGINE=InnoDb;
@@ -70,7 +72,8 @@ CREATE TABLE location (
     user_id INT NOT NULL,
     arrivee DATE NOT NULL,
     depart DATE NOT NULL,
-    voyageurs INT NOT NULL
+    voyageurs INT NOT NULL,
+    courrier text
 
 )ENGINE=InnoDb;
 
