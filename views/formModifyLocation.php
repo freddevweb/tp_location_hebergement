@@ -1,8 +1,6 @@
 <?= $header ?>
 <?= $nav ?>
-<?php
-    include "header.php";
-?>
+
 <form action="services/addLocationService.php" method="POST">
     <!-- adresse -->
     <div>
@@ -166,4 +164,5 @@
         <button class="btn btn-default">Retour au tableau de bord</button>
     </a>
 </form>
+
 <?= $footer ?>

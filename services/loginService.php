@@ -16,10 +16,6 @@
 
 
 
-
-
-
-
     $userEmail = $_POST['email'];
     $userPassReal = $_POST['pass'];
     $error = array();

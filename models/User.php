@@ -84,5 +84,6 @@ class User {
     public function launchControls(DbManager $dbmanager){
         return $dbmanager->getUserRepo()->checkUserEmailPassword( $this );
     }
+    
 
 }

@@ -64,6 +64,23 @@ class UserRepo {
         $objet->execute($values);
     }
 
+    public function checkEmailExist($email){
+
+        $query = 'SELECT * FROM user WHERE email = :email';
+        $values = array( 
+            'email'=>$email
+        );
+
+        $objet = $this->connexion->prepare($query);
+        $objet->execute($values);
+
+        $validation = $objet->fetchAll(PDO::FETCH_ASSOC);
+
+        if(empty($user)){
+            return false;
+        }
+        return true;
+    }
 
 
     // public function launchControls( User $user ){
