@@ -15,21 +15,20 @@
     require "../models/User.php";
     require "../models/UserRepo.php";
 
-    
-
+    var_dump(strlen($_POST['pseudo']));
+    var_dump(strlen($_POST['pass']));
     $error = array();
-
 
     if( empty($_POST["pseudo"]) ){
         $error[] = "Pseudo non renseigné";
     }
-    if( strlen($_POST["pseudo"]) <= 8 ){
+    if( strlen($_POST["pseudo"]) < 8 ){
         $error[] = "Le pseudo est trop court";
     }
     if( empty($_POST["email"]) ){
         $error[] = "Email non renseigné";
     }
-    if( preg_match( '#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#', $_POST["email"]) ){
+    if( !preg_match( "#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$# ", $_POST["email"]) ){
         $error[] = "Email invalide";
     }
     if( empty($_POST["emailConf"]) ){
@@ -38,7 +37,7 @@
     if( empty($_POST["pass"]) ){
         $error[] = "Mot de passe non renseigné";
     }
-    if( strlen($_POST["pass"]) <= 8 ){
+    if( strlen($_POST["pass"]) < 8 ){
         $error[] = "Le mot de passe est trop court";
     }
     if( empty($_POST["passConf"]) ){
@@ -51,17 +50,31 @@
     $db = new DbManager();
     $userRepo = $db->getUserRepo();
     $emailExist = $userRepo->checkEmailExist($_POST["email"]);
-    var_dump ($emailExist);
-    die();
+    if( $emailExist == true ){
+        $error[] = "L'email existe déja, veuillez vous loger";
+    }
 
     if( empty($error) ){
-        var_dump("ok");
-        // $link = 'Location:../index.php?';
+        switch($_POST["def"]){
+            case 'hote':
+                $def = 3;
+                break;
+            case 'voyageur':
+                $def = 4;
+                break;
+        }
+        $newUser = new User();
+        $newUser->setPseudo( htmlspecialchars( $_POST["pseudo"] ) ); 
+        $newUser->setEmail(htmlspecialchars( $_POST["email"] ) );
+        $newUser->setTypeId($def);
+        $newUser->setWp(hash('sha256',htmlspecialchars( $_POST["pass"] )));
+        $newUser->save($db);
+        var_dump($newUser);
+        session_destroy();
     }
     else {
         var_dump($error);
-        // $link = 'Location: http://www.example.com/';
+        $_SESSION["error"] = $error;
     }
-    
 
-// header($link);
+header('Location:../');

@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <blockquote>
-                    <form action="loginService" method="POST">
+                    <form action="services/loginService.php" method="POST">
                         <div class="form-group">
                             <label for="email">E-mail</label>
                             <input type="email" class="form-control" name ="email" id="email" placeholder="Votre e-mail">

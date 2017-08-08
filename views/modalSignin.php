@@ -28,6 +28,14 @@
                             <label for="passConf">Confirmer le mot de passe</label>
                             <input type="password" class="form-control" name="passConf" id="passConf" placeholder="Votre mot de passe">
                         </div>
+                        <div class="form-group">
+                            <label for="passConf">Souhaitez-vous vous inscrire en tant que voyageur ou hote ?</label>
+                            <select name="def" id="def">
+                                <option value="voyageur">voyageur</option> 
+                                <option value="hote">Hote</option>
+                            </select>
+                            <p class="help-bloc">A tout moment vous pourrez changer de catégorie</p>
+                        </div>
                         <button type="submit" class="btn btn-default">Envoyer</button>
                     </form>
                 </blockquote>

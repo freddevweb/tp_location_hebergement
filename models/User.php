@@ -85,5 +85,8 @@ class User {
         return $dbmanager->getUserRepo()->checkUserEmailPassword( $this );
     }
     
+    public function save(DbManager $dbmanager){
+        $dbmanager->getUserRepo()->saveUser( $this );
+    }
 
 }

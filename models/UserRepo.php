@@ -82,32 +82,21 @@ class UserRepo {
         return true;
     }
 
+    public function saveUser( User $user ){
 
-    // public function launchControls( User $user ){
-        
-    //     var_dump($user);
-    //     var_dump($user->getpseudo());
-    //     die("ici");
-    //     $user->getpseudo()
+        $query = "INSERT INTO user SET pseudo = :pseudo, email = :email, type_id = :type_id, wp = :wp, inscription = now(), connexion = now()";
+        $values = array(
+            'pseudo'=>$user->getPseudo(),
+            'email'=>$user->getEmail(),
+            'type_id'=>$user->getTypeId(),
+            'wp'=>$user->getWp(),
+        );
 
-    //     if( empty($user[]) ){ // $this->params['username'] represente ici $_POST['username']
-    //         $this->error['username'] = "nom utilisateur manquant";
-    //     }
-    //     if( empty($this->params['password']) ){ // $this->params['password'] represente ici $_POST['password']
-    //         $this->error['password'] = "mot de passe manquant";
-    //     }
-    //     if( empty($this->error) == false ){
-    //         return $this->error;
-    //     }
-    //     $this->user = $this->checkUsernamePassword();
-    //     if( empty($this->user) ){
-    //         $this->error['identifiants']="le nom d'\utilisateur ou mot de passe incorrect";
-    //         return $this->error;
-    //     }
-    //     else {
-    //         return $this->user;
-    //     }
-    // }
+        $pdo = $this->connexion->prepare($query);
+        $pdo->execute($values);
+
+        return $pdo->rowCount();
+    }
 
 
 

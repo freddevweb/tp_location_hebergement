@@ -5,9 +5,8 @@
  -->
 <div class="container">
     <div class="row">
-
         
-        <div class=""><?= $error ?></div>
+        <div class=""><?= var_dump($error) ?></div>
 
         <div id="carousel" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">

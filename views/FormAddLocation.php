@@ -157,7 +157,21 @@
             <input type="number" class="form-control" name ="tarif" id="tarif">
         </div>
     </div>
-
+    <!-- photo -->
+    <div>
+        <div class="form-group">
+            <label for="tarif">Tarif par nuitée</label>
+            <input type="number" class="form-control" name ="tarif" id="tarif">
+        </div>
+        <div class="form-group">
+            <label for="tarif">Tarif par nuitée</label>
+            <input type="number" class="form-control" name ="tarif" id="tarif">
+        </div>
+        <div class="form-group">
+            <label for="tarif">Tarif par nuitée</label>
+            <input type="number" class="form-control" name ="tarif" id="tarif">
+        </div>
+    </div>
     <button type="submit" class="btn btn-default">Envoyer</button>
     <a href="">
         <button class="btn btn-default">Effacer le formulaire</button>
