@@ -52,7 +52,7 @@ Flight::route('/dashboardAdmin', function(){
 Flight::route('/accounts', function(){
     
     if( isset( $_SESSION["search"]) ){
-        $search = $_SESSION["search"];
+        $search = unserialize($_SESSION["search"]);
 
     }
     else{

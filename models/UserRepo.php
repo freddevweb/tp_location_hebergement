@@ -143,14 +143,14 @@ class UserRepo {
         $objet = $this->connexion->prepare($query);
         $objet->execute($values);
 
-        $users = $objet->fetchAll(PDO::FETCH_ASSOC);
+        $user = $objet->fetchAll(PDO::FETCH_ASSOC);
         
-        if (!empty($users)){
-            $arrayUsers = [];
-            foreach ( $users as $user){
-                $arrayUsers[]= new User($user);
+        if (!empty($user)){
+            $arrayUser = [];
+            foreach ( $user as $tableauUser){
+                $arrayUser[]= new User($tableauUser);
             }
-            return $arrayUsers;
+            return $arrayUser;
         }
         return FALSE;
     }

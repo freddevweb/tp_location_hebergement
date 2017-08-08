@@ -1,9 +1,5 @@
 <?= $header ?>
 <?= $nav ?>
-<?php
-var_dump($user);
-var_dump($userType);
-?>
 <div class="container">
     <form action="services/searchUserService.php" method="post" class="navbar-form inline-form">
         <div class="form-group">
@@ -31,7 +27,6 @@ var_dump($userType);
         <table>
             <?php
                 if(!empty($user)){
-                    var_dump($user);
             ?>
             <tr>
                 <td>ID</td>
@@ -43,22 +38,24 @@ var_dump($userType);
                 <td>MODIFY STATUT</td>
             </tr>
             <?php
-                
                     foreach($user as $user){
-                        
-                        //var_dump($object["id"]);
-                        
-                        var_dump($user->getId());
-                        die();
                         ?>  
                         <tr>
-                            
-
+                            <td><?=$user->getId();?></td>
+                            <td><?=$user->getPseudo();?></td>
+                            <td><?=$user->getEmail();?></td>
+                            <td><?=$user->getInscription();?></td>
+                            <td><?=$user->getConnexion();?></td>
+                            <td><?=$user->getTypeId();?></td>
                         </tr>
                         <?php
                     }
-                }
-                ?>
+                    }else{
+                    ?>
+                    <p>Recherche infructueuse, il n'y a rien a afficher !</p>
+                    <?php
+                    }
+                    ?>
         </table>
     </div>
 </div>

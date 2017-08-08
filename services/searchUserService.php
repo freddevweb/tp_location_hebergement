@@ -21,9 +21,7 @@
     $user->setTypeId($_POST["type"]);
     $user->setPseudo( htmlspecialchars($_POST["name"]) );
     $search = $user->search($db);
-
-    // var_dump($search);
-    // die();
-    $_SESSION["search"] = $search;
+    
+    $_SESSION["search"] = serialize($search);
 
     header('Location:../accounts');
