@@ -98,11 +98,69 @@ class UserRepo {
         return $pdo->rowCount();
     }
 
+    public function getAllUserByType($type){
+        $query = 'SELECT * FROM user WHERE type_id = :type_id';
+        $values = array( 
+            'type_id'=>$type
+        );
+        $objet = $this->connexion->prepare($query);
+        $objet->execute($values);
+        $user = $objet->fetchAll(PDO::FETCH_ASSOC);
+
+        $arrayUser = [];
+        foreach ( $user as $tableauUser){
+            $arrayUser[]= new User($tableauUser);
+        }
+        return $arrayUser;
+    }
+
+    public function getUserByTypeOrAndName ( User $user){
+
+        if( !empty($user->getTypeId()) && !empty($user->getPseudo()) ){
+            $query = 'SELECT * FROM user WHERE type_id = :id and pseudo = :pseudo';
+            $values = array( 
+                'id'=>$user->getTypeId(),
+                'pseudo'=>$user->getPseudo()
+            );
+        }
+        else if( !empty($user->getTypeId()) && empty($user->getPseudo()) ){
+            $query = 'SELECT * FROM user WHERE type_id = :id ORDER BY pseudo';
+            $values = array( 
+                'id'=>$user->getTypeId(),
+            );
+        }
+        else if( empty($user->getTypeId()) && !empty($user->getPseudo()) ){
+            $query = 'SELECT * FROM user WHERE pseudo LIKE :pseudo ORDER BY pseudo';
+            $values = array(
+                'pseudo'=>($user->getPseudo()).'%'
+            );
+        }
+        else if( empty($user->getTypeId()) && empty($user->getPseudo()) ){
+            $query = 'SELECT * FROM user';
+            $values = array( );
+        }
+
+        $objet = $this->connexion->prepare($query);
+        $objet->execute($values);
+
+        $users = $objet->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (!empty($users)){
+            $arrayUsers = [];
+            foreach ( $users as $user){
+                $arrayUsers[]= new User($user);
+            }
+            return $arrayUsers;
+        }
+        return FALSE;
+    }
 
 
-
-
-
+/* 
+Admin
+Validator
+Loueur
+User */
 
 
 

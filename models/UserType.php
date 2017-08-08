@@ -1,6 +1,6 @@
 <?php
 
-class User {
+class UserType {
     
     private $id;
     private $nom;

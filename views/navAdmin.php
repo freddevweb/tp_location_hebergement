@@ -5,17 +5,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#top">RBNB</a>
+        <a class="navbar-brand" href="dashboardAdmin">RBNB</a>
     </div>
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
             <div class="btn-group"> 
                 <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown"> Accounts </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Admin</a></li>
-                    <li><a href="#">Controleur</a></li>
-                    <li><a href="#">Loueur</a></li>
-                    <li><a href="#">User</a></li>
+                    <li><a href="accounts">Acount</a></li>
                     <li class="divider"></li>
                     <li><a href="#">Usertype</a></li>
                 </ul>

@@ -8,7 +8,7 @@ class User {
     private $typeId;
     private $wp;
     private $inscription;
-    private $derConnexion;
+    private $connexion;
 
     // *********** constructor
     public function __construct($donnees=array()){
@@ -73,11 +73,11 @@ class User {
     public function setInscription($inscription){
         $this->inscription = $inscription;
     }
-    public function getDerConnexion(){
-        return $this->derConnexion;
+    public function getConnexion(){
+        return $this->connexion;
     }
-    public function setDerConnexion($derConnexion){
-        $this->derConnexion = $derConnexion;
+    public function setConnexion($connexion){
+        $this->connexion = $connexion;
     }
 
     // *********** methodes
@@ -87,6 +87,10 @@ class User {
     
     public function save(DbManager $dbmanager){
         $dbmanager->getUserRepo()->saveUser( $this );
+    }
+
+    public function search(DbManager $dbmanager){
+        return $dbmanager->getUserRepo()->getUserByTypeOrAndName( $this );
     }
 
 }

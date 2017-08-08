@@ -14,6 +14,8 @@
     require "../models/PhotoRepo.php";
     require "../models/User.php";
     require "../models/UserRepo.php";
+    require "../models/UserType.php";
+    require "../models/UserTypeRepo.php";
 
     var_dump(strlen($_POST['pseudo']));
     var_dump(strlen($_POST['pass']));

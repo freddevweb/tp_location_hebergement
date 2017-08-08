@@ -190,7 +190,7 @@ INSERT INTO user_type VALUES
 (1,"Admin"),
 (2,"Validator"),
 (3,"Loueur"),
-(4,"user");
+(4,"User");
 UNLOCK TABLES;
 
 LOCK TABLES user WRITE;

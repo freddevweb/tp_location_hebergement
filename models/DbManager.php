@@ -20,6 +20,7 @@ class DbManager {
         $this->setLocationRepo(new LocationRepo($this->connexion));
         $this->setPhotoRepo(new PhotoRepo($this->connexion));
         $this->setUserRepo(new UserRepo($this->connexion));
+        $this->setUserTypeRepo(new UserTypeRepo($this->connexion));
     }
 
 
@@ -52,5 +53,11 @@ class DbManager {
     }
     public function setUserRepo($userRepo){
         $this->userRepo = $userRepo;
+    }
+    public function getUserTypeRepo(){
+        return $this->userTypeRepo;
+    }
+    public function setUserTypeRepo($userTypeRepo){
+        $this->userTypeRepo = $userTypeRepo;
     }
 }

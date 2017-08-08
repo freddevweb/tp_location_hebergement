@@ -13,6 +13,8 @@
     require "../models/PhotoRepo.php";
     require "../models/User.php";
     require "../models/UserRepo.php";
+    require "../models/UserType.php";
+    require "../models/UserTypeRepo.php";
 
 
 
@@ -35,8 +37,10 @@
             $getUser = $userRepo->getUser($user->getEmail($userEmail));
             // modifier user dern connexion
             $derConnectUpdate = $userRepo->updateConnexion($user);
-            $_SESSION["id"] = $user->getId();
+            // set session
 
+            $_SESSION["id"] = $getUser->getId();
+            $_SESSION["type"] = $getUser->getTypeId();
             if($control->getTypeId() == 1){
                 // $value = $user->getPseudo().$user->getEmails().$user->getInscription();
                 // $_SESSION["id"] = hash('sha256', $value);
@@ -68,8 +72,6 @@
         }
         
         $_SESSION["error"] = $error;
-        var_dump($_SESSION["error"]);
-        die();
         $link = 'Location:../';
     }
 
