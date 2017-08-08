@@ -1,0 +1,11 @@
+
+/** Alfonso:
+* Bravo la structure commence à prendre forme et tu applique bien l'architecture
+* avec les repositories.
+* Tu peux organiser tes objets par dossier si tu le préfères et normalement nous sommes sensés
+* le faire.
+* Attention les services ne sont pas sensés avoir de session_start() car le tout passe par
+* l'index (même les services contrairement à notre MVC d'origine)
+*
+* Continue à travaillé comme tu as fais jusqu'à maintenant et tout ira bien.
+* Bravo monsieur.
