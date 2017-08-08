@@ -8,9 +8,9 @@
                 <select name="type" id="type" class="input-sm form-control" aria-describedby="basic-addon1">
                     <option value=""></option>
                     <?php
-                        foreach($userType as $userType){
+                        foreach($userType as $type){
                             ?>  
-                                <option value="<?= $userType->getId();?>"><?= $userType->getNom();?></option>
+                                <option value="<?= $type->getId();?>"><?= $type->getNom();?></option>
                             <?php
                         }
                     ?>
@@ -24,10 +24,11 @@
         </div>
     </form>
     <div>
-        <table>
-            <?php
-                if(!empty($user)){
-            ?>
+        <?php
+            if(!empty($user)){
+        ?>
+        <table class="table table-bordered table-striped">
+            
             <tr>
                 <td>ID</td>
                 <td>PSEUDO</td>
@@ -38,24 +39,40 @@
                 <td>MODIFY STATUT</td>
             </tr>
             <?php
-                    foreach($user as $user){
-                        ?>  
-                        <tr>
-                            <td><?=$user->getId();?></td>
-                            <td><?=$user->getPseudo();?></td>
-                            <td><?=$user->getEmail();?></td>
-                            <td><?=$user->getInscription();?></td>
-                            <td><?=$user->getConnexion();?></td>
-                            <td><?=$user->getTypeId();?></td>
-                        </tr>
-                        <?php
-                    }
-                    }else{
-                    ?>
-                    <p>Recherche infructueuse, il n'y a rien a afficher !</p>
+                foreach($user as $user){
+                    ?>  
+                    <tr>
+                        <td><?=$user->getId();?></td>
+                        <td><?=$user->getPseudo();?></td>
+                        <td><?=$user->getEmail();?></td>
+                        <td><?=$user->getInscription();?></td>
+                        <td><?=$user->getConnexion();?></td>
+                        <td><?=$user->getTypeId();?></td>
+                        <td>
+                            <form action="services/modifyTypeUserService.php" method="post">
+                                <select name="typeName" id="typeName">
+                                    <option value=""></option>
+                                    <?php
+                                        foreach($userType as $typeUser){
+                                            ?>  
+                                                <option value="<?= $typeUser->getId();?>"><?= $typeUser->getNom();?></option>
+                                            <?php
+                                        }
+                                    ?>
+                                </select>
+                                <input class="hidden" type="number" name="id" id="id" value="<?=$user->getId();?>" />
+                                <input type="submit" value="Envoyer" class="btn btn-default btn-xs" />
+                            </form>
+                        </td>
+                    </tr>
                     <?php
-                    }
-                    ?>
+                }
+            }else{
+            ?>
+            <p>Recherche infructueuse, il n'y a rien a afficher !</p>
+            <?php
+            }
+            ?>
         </table>
     </div>
 </div>

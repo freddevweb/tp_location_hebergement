@@ -1,12 +1,26 @@
 <?= $header ?>
 <?= $nav ?>
+<?php
+// var_dump($error);
+// die();
+?>
 <!-- 
 <div class="marg"></div>
  -->
 <div class="container">
     <div class="row">
         
-        <div class=""><?= var_dump($error) ?></div>
+        <div class="">
+            <?php if( !empty($error)){ ?>
+                <p>
+                    <ul>
+                        <?php foreach($error as $error){ ?>
+                            <li><?= $error ?></li>
+                        <?php } ?>
+                    </ul>
+                </p>
+            <?php }?> 
+        </div>
 
         <div id="carousel" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">

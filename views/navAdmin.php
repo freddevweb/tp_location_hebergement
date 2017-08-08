@@ -45,7 +45,7 @@
             </div>
         </ul>
         <div class="navbar-right navbar-form inline-form">
-            <a href="#">
+            <a href="profil">
                 <span class="glyphicon glyphicon-user" title="Votre compte"></span>
             </a>
             <a href="services/logoutService.php">

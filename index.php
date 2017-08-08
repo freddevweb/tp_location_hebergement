@@ -6,6 +6,26 @@ require "autoloader.php";
 
 Flight::render('header', array('heading'=>'RBNB'), "header");
 Flight::render('footer', array('traduction'=>'cool'), "footer");
+if( isset($_SESSION["type"]) ){
+    switch($_SESSION["type"]){
+        case 1:
+            Flight::render('navAdmin', array('heading'=>'Hello'), "nav");
+            break;
+        case 2:
+            Flight::render('navControleur', array('heading'=>'Hello'), "nav");
+            break;
+        case 3:
+            Flight::render('navRender', array('heading'=>'title'), "nav");
+            break;
+        case 4:
+            Flight::render('navUser', array('heading'=>'title'), "nav");
+            break;
+    }
+}
+else {
+    Flight::render('nav', array('heading'=>'title'), "nav");
+}
+
 
 /**
  * Alfonso: bravo toi au moins t'es bien parti!
@@ -23,15 +43,10 @@ Flight::route('/', function(){
     else{
         $error="";
     }
-    
     $db = new DbManager();
-    
-    
-    Flight::render('nav', array('heading'=>'Hello'), "nav");
     Flight::render('accueil', array(
         "error"=>$error
     ));
-
     if( isset( $_SESSION["error"]) ){
         unset( $_SESSION["error"] );
     }
@@ -40,25 +55,19 @@ Flight::route('/', function(){
 
 
 Flight::route('/dashboardAdmin', function(){
-    
 
-    Flight::render('navAdmin', array('heading'=>'Hello'), "nav");
     Flight::render('dashboardAdmin', array(
-
     ));
-
 });
 
 Flight::route('/accounts', function(){
     
     if( isset( $_SESSION["search"]) ){
         $search = unserialize($_SESSION["search"]);
-
     }
     else{
         $search="";
     }
-    
     $db = new DbManager();
     $userTypeRepo = $db->getUserTypeRepo();
     switch($_SESSION["type"]){
@@ -69,7 +78,6 @@ Flight::route('/accounts', function(){
             $userType = $userTypeRepo->getAllUserTypeSupAs(2);
             break;
     }
-    Flight::render('navAdmin', array('heading'=>'Hello'), "nav");
     Flight::render('accounts', array(
         "userType"=>$userType,
         "user"=>$search
@@ -77,35 +85,49 @@ Flight::route('/accounts', function(){
     if( isset( $_SESSION["search"]) ){
         unset( $_SESSION["search"] );
     }
-
 });
 
 Flight::route('/dashboardControler', function(){
-    
     //$db = new DbManager();
-
-    
-    Flight::render('navControleur', array('heading'=>'Hello'), "nav");
     Flight::render('dashboardControler', array(
-
     ));
-
 });
 
 
 Flight::route('/dashboardRender', function(){
-    
-    
     //$db = new DbManager();
-
     
-    Flight::render('navRender', array('heading'=>'title'), "nav");
+    Flight::render('dashboardrender', array(
+        "title"=>$page
+    ));
+
+});
+Flight::route('/dashboardRender', function(){
+    //$db = new DbManager();
     Flight::render('dashboardrender', array(
         "title"=>$page
     ));
 
 });
 
+
+Flight::route('/profil', function(){
+    $db = new DbManager();
+    $user = new User();
+    $user->setId($_SESSION["id"]);
+    $userRepo = $db->getUserRepo();
+    $getUser = $userRepo->getUserById($user->getId());
+
+    $type=$_SESSION["type"];
+    $userTypeRepo = $db->getUserTypeRepo();
+    $getType = $userTypeRepo->getUserType($type);
+    
+    Flight::render('profil', array(
+        "user"=>$getUser,
+        "type"=>$getType
+    ));
+
+});
 /**************************************/
 Flight::route('POST /searchUserService', function(){
     

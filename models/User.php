@@ -93,4 +93,8 @@ class User {
         return $dbmanager->getUserRepo()->getUserByTypeOrAndName( $this );
     }
 
+    public function updateUserTypeId(DbManager $dbmanager){
+        $dbmanager->getUserRepo()->updateUserTypeId( $this );
+    }
+
 }

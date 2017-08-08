@@ -12,7 +12,7 @@ class UserTypeRepo {
     public function getUserType ( $userType ){
         $query = 'SELECT * FROM user_type WHERE id = :id';
         $values = array( 
-            'id'=>$userType->getId()
+            'id'=>$userType
         );
 
         $objet = $this->connexion->prepare($query);

@@ -8,7 +8,22 @@ class UserRepo {
         $this->connexion = $connexion;
     }
 
+    public function getUserById( $id){
+        $query = 'SELECT * FROM user WHERE id = :id';
+        $values = array( 
+            'id'=>$id
+        );
+        $objet = $this->connexion->prepare($query);
+        $objet->execute($values);
 
+        $user = $objet->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!empty($user)){
+            
+            return new User($user[0]);
+        }
+        return FALSE;
+    }
 
     public function getUser($email){
 
@@ -155,12 +170,20 @@ class UserRepo {
         return FALSE;
     }
 
+    public function updateUserTypeId( User $user ){
 
-/* 
-Admin
-Validator
-Loueur
-User */
+        $query = "UPDATE user SET type_id = :type_id WHERE id = :id";
+        $values = array(
+            'type_id'=>$user->getTypeId(),
+            'id'=>$user->getId(),
+        );
+
+        $pdo = $this->connexion->prepare($query);
+        $pdo->execute($values);
+
+        return $pdo->rowCount();
+    }
+
 
 
 
