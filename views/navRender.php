@@ -5,11 +5,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#top">RBNB</a>
+        <a class="navbar-brand" href="dashboardRender">RBNB</a>
     </div>
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li> <a href="/">Vos biens</a> </li>
+            <li> <a class="btn btn-inverse btn-xs" href="annonces">Vos biens</a> </li>
             <li> <a href="/search">Demandes de locations</a> </li>
             <li> <a href="/search">Planing des réservations</a> </li>
         </ul>

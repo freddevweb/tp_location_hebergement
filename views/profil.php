@@ -23,10 +23,6 @@
                         <td><h4>Date d'inscription : </h4></td>
                         <td><h4><?=$user->getInscription();?></h4></td>
                     </tr>
-                    <tr>
-                        <td><h4>Password : </h4></td>
-                        <td><h4><?=$user->getPseudo();?></h4></td>
-                    </tr>
                 </table>
                 <h4>Vous êtes actuellement <?= $type->getNom(); ?></h4>
                 

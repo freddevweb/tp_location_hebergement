@@ -1,9 +1,7 @@
 <?= $header ?>
 <?= $nav ?>
-<?php
-    include "header.php";
-?>
-<form action="services/addLocationService.php" method="POST">
+
+<form action="services/saveAnnonceService.php" method="POST">
     <!-- adresse -->
     <div>
         <p>Coordonnees du logement</p>
@@ -157,21 +155,7 @@
             <input type="number" class="form-control" name ="tarif" id="tarif">
         </div>
     </div>
-    <!-- photo -->
-    <!-- <div>
-        <div class="form-group">
-            <label for="presentation">Photo de présentation :</label>
-            <input type="file" class="form-control" name ="tarif" id="presentation">
-        </div>
-        <div class="form-group">
-            <label for="photo1">Photo 1 :</label>
-            <input type="file" class="form-control" name ="tarif" id="photo1">
-        </div>
-        <div class="form-group">
-            <label for="photo2">Photo 2 :</label>
-            <input type="number" class="form-control" name ="photo2" id="photo2">
-        </div>
-    </div> -->
+
     <button type="submit" class="btn btn-default">Envoyer</button>
     <a href="">
         <button class="btn btn-default">Effacer le formulaire</button>
@@ -180,4 +164,5 @@
         <button class="btn btn-default">Retour au tableau de bord</button>
     </a>
 </form>
+
 <?= $footer ?>

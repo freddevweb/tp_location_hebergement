@@ -11,7 +11,6 @@ class Annonce {
     private $nbreChambre;
     private $nbrePieces;
     private $description;
-    private $codePostal;
     private $ville;
     private $capacite;
     private $arriveeDebut;
@@ -25,6 +24,7 @@ class Annonce {
     private $laveLinge;
     private $wifi;
     private $hDepart;
+    private $statut;
     // *********** constructor
     public function __construct($donnees=array()){
         $this->hydrate($donnees);
@@ -189,6 +189,12 @@ class Annonce {
     }
     public function setHDepart($hDepart){
         $this->hDepart = $hDepart;
+    }
+    public function getStatut(){
+        return $this->statut;
+    }
+    public function setStatut($statut){
+        $this->statut = $statut;
     }
 
     // *********** methodes

@@ -52,12 +52,62 @@ Flight::route('/', function(){
     }
 });
 
-
-
 Flight::route('/dashboardAdmin', function(){
 
     Flight::render('dashboardAdmin', array(
     ));
+});
+
+Flight::route('/dashboardControler', function(){
+    //$db = new DbManager();
+    Flight::render('dashboardControler', array(
+    ));
+});
+
+Flight::route('/dashboardRender', function(){
+    $db = new DbManager();
+
+    
+    Flight::render('dashboardRender', array(
+        
+    ));
+
+});
+
+Flight::route('/dashboardUser', function(){
+    //$db = new DbManager();
+    Flight::render('dashboardUser', array(
+        
+    ));
+
+});
+
+Flight::route('/annonces', function(){
+    $db = new DbManager();
+    $annonceRepo = $db->getAnnonceRepo();
+    $annonces = $annonceRepo->getAnnoncesByHote($_SESSION['id']);
+    Flight::render('annonces', array(
+        
+    ));
+
+});
+
+Flight::route('/annonceDetail', function(){
+    $db = new DbManager();
+    
+
+    Flight::render('locationDetail', array(
+        
+    ));
+
+});
+
+Flight::route('/formAddAnnonce', function(){
+    
+    Flight::render('formAddAnnonce', array(
+        
+    ));
+
 });
 
 Flight::route('/accounts', function(){
@@ -85,29 +135,6 @@ Flight::route('/accounts', function(){
     if( isset( $_SESSION["search"]) ){
         unset( $_SESSION["search"] );
     }
-});
-
-Flight::route('/dashboardControler', function(){
-    //$db = new DbManager();
-    Flight::render('dashboardControler', array(
-    ));
-});
-
-
-Flight::route('/dashboardRender', function(){
-    //$db = new DbManager();
-    
-    Flight::render('dashboardrender', array(
-        "title"=>$page
-    ));
-
-});
-Flight::route('/dashboardRender', function(){
-    //$db = new DbManager();
-    Flight::render('dashboardrender', array(
-        "title"=>$page
-    ));
-
 });
 
 

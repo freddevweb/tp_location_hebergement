@@ -32,24 +32,28 @@ CREATE TABLE annonce (
     nbreChambre INT,
     nbrePieces INT NOT NULL,
     description TEXT,
-    codePostal INT(5),
-    ville VARCHAR(255),
+    codePostal INT(5)NOT NULL,
+    ville VARCHAR(255)NOT NULL,
 
     capacite INT NOT NULL,
     arriveeDebut TIME,
     arriveeFin TIME,
-    fumeur BOOLEAN,
-    television BOOLEAN,
-    chaufage BOOLEAN,
-    climatisation BOOLEAN,
-    sdb BOOLEAN,
-    parking BOOLEAN,
-    laveLinge BOOLEAN,
-	wifi BOOLEAN,
-    hCleDebut time,
-    hClefin time,
-    hDepart TIME
+    fumeur BOOLEAN NOT NULL,
+    television BOOLEAN NOT NULL,
+    chaufage BOOLEAN NOT NULL,
+    climatisation BOOLEAN NOT NULL,
+    sdb BOOLEAN NOT NULL,
+    parking BOOLEAN NOT NULL,
+    laveLinge BOOLEAN NOT NULL,
+	wifi BOOLEAN NOT NULL,
+    hDepart TIME,
+    statut_id int NOT NULL
 
+)ENGINE=InnoDb;
+
+CREATE TABLE statut (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    statut varchar(255)
 )ENGINE=InnoDb;
 
 CREATE TABLE logement_type (
@@ -171,6 +175,11 @@ ADD CONSTRAINT fk_nav_user
     FOREIGN KEY (user_id) 
     REFERENCES user (id);
 
+ALTER TABLE annonce 
+ADD CONSTRAINT fk_annonce_statut
+    FOREIGN KEY (statut_id) 
+    REFERENCES statut (id);
+
 
 -- #######################################################
 -- #######################################################
@@ -185,6 +194,15 @@ INSERT INTO logement_type VALUES
 (6,"villa");
 UNLOCK TABLES;
 
+LOCK TABLES statut WRITE;
+INSERT INTO statut VALUES
+(1,"en attente"),
+(2,"a verifier"),
+(3, "verifier"),
+(4,"a valider"),
+(5,"validé");
+UNLOCK TABLES;
+
 LOCK TABLES user_type WRITE;
 INSERT INTO user_type VALUES
 (1,"Admin"),
@@ -195,7 +213,11 @@ UNLOCK TABLES;
 
 LOCK TABLES user WRITE;
 INSERT INTO user VALUES
-(1,"Frédéric", "fred@mail.com", 1, "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", now(), now());
+(1,"Frédéric", "fred@mail.com", 1, "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", now(), now()),
+(2,"Valerie", "val@mail.com", 2, "a2114e464a6b56701ee1ac601abd50b761c30c1a17a5313395089feaf9304812", now(), now()),
+(3,"Paul", "paul@mail.com", 3, "0357513deb903a056e74a7e475247fc1ffe31d8be4c1d4a31f58dd47ae484100", now(), now()),
+(4,"Pierre", "pierre@mail.com", 4, "d5a5d66b94e8da0cf63d4cd6d66cd489d78e77b697039c6c48e3ff8d81752139", now(), now()),
+(5,"Alfonso", "alfonso@mail.com", 4, "c7e52d8590eaed2bc3558eacd21b5ed7d1ac0770507440f8bc2748308090bc77", now(), now());
 UNLOCK TABLES;
 
 

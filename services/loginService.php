@@ -55,7 +55,7 @@
             }
             if($control->getTypeId() == 3){
 
-                $link = 'Location:../dashboardRenter';
+                $link = 'Location:../dashboardRender';
             }
             if($control->getTypeId() == 4){
 

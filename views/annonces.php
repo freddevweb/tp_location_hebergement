@@ -1,9 +1,9 @@
 <?= $header ?>
 <?= $nav ?>
-<div class="container">
-    <h1>Render</h1>
-</div>
 
+<div class="container">
+    <a href="formAddAnnonce">ajouter une annonce</a>
+</div>
 
 
 
