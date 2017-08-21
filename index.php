@@ -1,8 +1,9 @@
 <?php
-session_start();
 
 require 'flight/Flight.php';
 require "autoloader.php";
+
+session_start();
 
 Flight::render('header', array('heading'=>'RBNB'), "header");
 Flight::render('footer', array('traduction'=>'cool'), "footer");
@@ -102,15 +103,19 @@ Flight::route('/annonceDetail', function(){
 
 // ##############################################################
 Flight::route('/formAddAnnonce', function(){
+    
     if(isset($_SESSION["error"])) {
         $error = $_SESSION["error"];
-    } else { $error = "";}
+    } else { $error = array();}
     if(isset($_SESSION["conseil"])) {
         $conseil = $_SESSION["conseil"];
-    } else { $conseil = "";}
+    } else { $conseil = array();}
     if(isset($_SESSION["data"])) {
         $data = $_SESSION["data"];
-    } else { $data = "";}
+    } else { $data = array();}
+
+    $db = new DbManager();
+    $annonceRepo = $db->getAnnonceRepo();
 
     Flight::render('formAddAnnonce', array(
         "error" => $error,
@@ -122,9 +127,20 @@ Flight::route('/formAddAnnonce', function(){
 
 // ##############################################################
 Flight::route('/addPhoto', function(){
+    if(isset($_SESSION["annonceId"])){
+        $db = new DbManager();
+        $photoRepo = $db->getPhotoRepo();
+        $path = $photoRepo->getPhotoByAnnonce($annonceId);
+    }else { $path = array(); }
     
+    $annonceId = 1;
+    $db = new DbManager();
+        $photoRepo = $db->getPhotoRepo();
+        $path = $photoRepo->getPhotoByAnnonce($annonceId);
+        var_dump($path);
+
     Flight::render('formAddPhoto', array(
-        
+        "path"=>$path
     ));
 
 });

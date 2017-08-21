@@ -16,18 +16,31 @@ session_start();
     require "../models/UserType.php";
     require "../models/UserTypeRepo.php";
 
-    var_dump($_POST);
+    // var_dump($_POST);
+    var_dump($_FILES);
     die();
 
     $error = array();
 
-    if( !empty($_POST['presentation']) ){
-        $heureCleMin = $_POST['heureCleMin'];
+    if( !empty($_POST["presentation"]) ){
+
+
+        
     }
     else{
-        $error[] = "Vous n'avez pas renseigné de photo de présentation."
-        $link = "Location:../addPhoto";
+        $error[] = "Vous n'avez pas renseigné de photo de présentation.";
+    }
+    if( !empty($_POST ["photo1"]) ){
         
+    }
+    else {
+        $error[] = "Vous n'avez pas renseigné la première photo.";
+    }
+    if( !empty($_POST ["photo2"]) ){
+
+    }
+    else {
+        $error[] = "Vous n'avez pas renseigné la deuxième photo.";
     }
 
 

@@ -26,6 +26,7 @@
 
     $error = array();
     $conseil = array();
+    $data = array();
     $newAnnonce = new Annonce();
     $newAnnonce->setUserId($_SESSION['id']);
 
@@ -155,7 +156,7 @@
 if( empty( $error ) ){
     $link = 'Location:../addPhoto';
     $_SESSION["conseil"] = $conseil;
-    $db = new DbManager();
+    // $db = new DbManager();
     // $newAnnonce->saveAnnonce($db);
 }
 else{
@@ -164,9 +165,7 @@ else{
     $_SESSION["conseil"] = $conseil;
     $_SESSION["data"] = $newAnnonce;
 }
-
-$link = 'Location:../addPhoto';
-
+    $link = 'Location:../addPhoto';
 header($link);
 
 

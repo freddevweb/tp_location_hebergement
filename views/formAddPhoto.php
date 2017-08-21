@@ -7,7 +7,7 @@
     <form action="services/savePhotoService.php" method="post">
         <div class="col-lg-4 col-md-4 col-sm-12-col-xs-12">
             <div>
-                <?= $presentation ;?>
+                <img src="<?= var_dump("presentation") ;?>"/>
             </div>
             <div class="form-group">
                 <label for="presentation">Photo de présentation :</label>
@@ -16,7 +16,7 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12-col-xs-12">
             <div>
-                <?= $photo1 ;?>
+                <img src="<?= var_dump("photo1") ;?>"/>
             </div>
             <div class="form-group">
                 <label for="photo1">Photo 1 :</label>
@@ -25,7 +25,7 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12-col-xs-12">
             <div>
-                <?= $photo2 ;?>
+                <img src="<?= var_dump("photo2") ;?>"/>
             </div>
             <div class="form-group">
                 <label for="photo2">Photo 2 :</label>
