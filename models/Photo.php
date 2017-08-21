@@ -59,7 +59,6 @@ class Photo {
         $this->photoPath = $photoPath;
     }
     
-
     // *********** methodes
     
 }

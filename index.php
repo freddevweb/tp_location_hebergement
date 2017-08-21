@@ -110,6 +110,14 @@ Flight::route('/formAddAnnonce', function(){
 
 });
 
+Flight::route('/addPhoto', function(){
+    
+    Flight::render('formAddPhoto', array(
+        
+    ));
+
+});
+
 Flight::route('/accounts', function(){
     
     if( isset( $_SESSION["search"]) ){

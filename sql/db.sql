@@ -32,6 +32,7 @@ CREATE TABLE annonce (
     nbreChambre INT,
     nbrePieces INT NOT NULL,
     description TEXT,
+    adress varchar(255),
     codePostal INT(5)NOT NULL,
     ville VARCHAR(255)NOT NULL,
 

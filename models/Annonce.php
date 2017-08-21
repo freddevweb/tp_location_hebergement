@@ -11,6 +11,8 @@ class Annonce {
     private $nbreChambre;
     private $nbrePieces;
     private $description;
+    private $codePostal;
+    private $adress;
     private $ville;
     private $capacite;
     private $arriveeDebut;
@@ -61,7 +63,7 @@ class Annonce {
     public function getUserId(){
         return $this->userId;
     }
-    public function setUserId($pseudo){
+    public function setUserId($userId){
         $this->userId = $userId;
     }
     public function getTitre(){
@@ -105,6 +107,12 @@ class Annonce {
     }
     public function setDescription($description){
         $this->description = $description;
+    }
+    public function getAdress(){
+        return $this->adress;
+    }
+    public function setAdress($adress){
+        $this->adress = $adress;
     }
     public function getCodePostal(){
         return $this->codePostal;
