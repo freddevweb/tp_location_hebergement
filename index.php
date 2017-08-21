@@ -25,16 +25,8 @@ if( isset($_SESSION["type"]) ){
 else {
     Flight::render('nav', array('heading'=>'title'), "nav");
 }
-
-
-/**
- * Alfonso: bravo toi au moins t'es bien parti!
- * Fred : merci mais c'est grace à ce que tu nous as appris. Le principe du tp c'est d'appliquer, pour ceux qui t'ont écouté en cours !!!
- * Alfonso: lol. merci!
- */
-
-
-
+// ##############################################################
+// ##############################################################
 Flight::route('/', function(){
     
     if( isset( $_SESSION["error"]) ){
@@ -51,19 +43,22 @@ Flight::route('/', function(){
         unset( $_SESSION["error"] );
     }
 });
-
+// ##############################################################
+// ##############################################################
 Flight::route('/dashboardAdmin', function(){
 
     Flight::render('dashboardAdmin', array(
     ));
 });
 
+// ##############################################################
 Flight::route('/dashboardControler', function(){
     //$db = new DbManager();
     Flight::render('dashboardControler', array(
     ));
 });
 
+// ##############################################################
 Flight::route('/dashboardRender', function(){
     $db = new DbManager();
 
@@ -74,6 +69,7 @@ Flight::route('/dashboardRender', function(){
 
 });
 
+// ##############################################################
 Flight::route('/dashboardUser', function(){
     //$db = new DbManager();
     Flight::render('dashboardUser', array(
@@ -81,7 +77,8 @@ Flight::route('/dashboardUser', function(){
     ));
 
 });
-
+// ##############################################################
+// ##############################################################
 Flight::route('/annonces', function(){
     $db = new DbManager();
     $annonceRepo = $db->getAnnonceRepo();
@@ -92,6 +89,7 @@ Flight::route('/annonces', function(){
 
 });
 
+// ##############################################################
 Flight::route('/annonceDetail', function(){
     $db = new DbManager();
     
@@ -102,14 +100,27 @@ Flight::route('/annonceDetail', function(){
 
 });
 
+// ##############################################################
 Flight::route('/formAddAnnonce', function(){
-    
+    if(isset($_SESSION["error"])) {
+        $error = $_SESSION["error"];
+    } else { $error = "";}
+    if(isset($_SESSION["conseil"])) {
+        $conseil = $_SESSION["conseil"];
+    } else { $conseil = "";}
+    if(isset($_SESSION["data"])) {
+        $data = $_SESSION["data"];
+    } else { $data = "";}
+
     Flight::render('formAddAnnonce', array(
-        
+        "error" => $error,
+        "conseil" => $conseil,
+        "data" => $data
     ));
 
 });
 
+// ##############################################################
 Flight::route('/addPhoto', function(){
     
     Flight::render('formAddPhoto', array(
@@ -117,7 +128,8 @@ Flight::route('/addPhoto', function(){
     ));
 
 });
-
+// ##############################################################
+// ##############################################################
 Flight::route('/accounts', function(){
     
     if( isset( $_SESSION["search"]) ){
@@ -145,7 +157,7 @@ Flight::route('/accounts', function(){
     }
 });
 
-
+// ##############################################################
 Flight::route('/profil', function(){
     $db = new DbManager();
     $user = new User();
@@ -163,19 +175,8 @@ Flight::route('/profil', function(){
     ));
 
 });
-/**************************************/
-Flight::route('POST /searchUserService', function(){
-    
-    $db = new DbManager();
-    $user = new User();
-    $user->setTypeId($_POST["type"]);
-    $user->setPseudo( htmlspecialchars($_POST["name"]) );
-    $search = $user->search($db);
-
-    $_SESSION["search"] = $search;
-    Flight::redirect('accounts');
-});
-
+// ##############################################################
+// ##############################################################
 
 
 Flight::start();

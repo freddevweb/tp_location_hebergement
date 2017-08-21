@@ -154,15 +154,18 @@
 
 if( empty( $error ) ){
     $link = 'Location:../addPhoto';
+    $_SESSION["conseil"] = $conseil;
     $db = new DbManager();
-    $newAnnonce->saveAnnonce($db);
+    // $newAnnonce->saveAnnonce($db);
 }
 else{
     $link = 'Location:../formAddAnnonce';
     $_SESSION["error"] = $error;
+    $_SESSION["conseil"] = $conseil;
     $_SESSION["data"] = $newAnnonce;
 }
 
+$link = 'Location:../addPhoto';
 
 header($link);
 
