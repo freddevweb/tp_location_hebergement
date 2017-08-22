@@ -35,18 +35,17 @@ CREATE TABLE annonce (
     adress varchar(255),
     codePostal INT(5)NOT NULL,
     ville VARCHAR(255)NOT NULL,
-
     capacite INT NOT NULL,
     arriveeDebut TIME,
     arriveeFin TIME,
-    fumeur BOOLEAN NOT NULL,
-    television BOOLEAN NOT NULL,
-    chaufage BOOLEAN NOT NULL,
-    climatisation BOOLEAN NOT NULL,
-    sdb BOOLEAN NOT NULL,
-    parking BOOLEAN NOT NULL,
-    laveLinge BOOLEAN NOT NULL,
-	wifi BOOLEAN NOT NULL,
+    fumeur BOOLEAN,
+    television BOOLEAN,
+    chauffage BOOLEAN,
+    climatisation BOOLEAN,
+    sdb BOOLEAN,
+    parking BOOLEAN,
+    laveLinge BOOLEAN,
+	wifi BOOLEAN,
     hDepart TIME,
     statut_id int NOT NULL
 
@@ -66,9 +65,15 @@ CREATE TABLE logement_type (
 CREATE TABLE photo (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     annonce_id INT NOT NULL,
+    type_id int not null,
     titre VARCHAR(255),
     photo_path VARCHAR(255)
 
+)ENGINE=InnoDb;
+
+create table photo_type (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nom varchar(255) not null
 )ENGINE=InnoDb;
 
 CREATE TABLE location (
@@ -181,6 +186,10 @@ ADD CONSTRAINT fk_annonce_statut
     FOREIGN KEY (statut_id) 
     REFERENCES statut (id);
 
+ALTER TABLE photo
+ADD CONSTRAINT fk_photo_photo_type
+    FOREIGN KEY (type_id) 
+    REFERENCES photo_type (id);
 
 -- #######################################################
 -- #######################################################
@@ -223,7 +232,44 @@ UNLOCK TABLES;
 
 
 
+LOCK TABLES photo_type WRITE;
+INSERT INTO photo_type VALUES
+(1,"presentation"),
+(2,"photo 1"),
+(3,"photo 2"),
+(4,"photo 4"),
+(5,"photo 5"),
+(6,"photo 6")
+;
+UNLOCK TABLES;
 
+LOCK TABLES photo_type WRITE;
+INSERT INTO photo_type VALUES
+(1,3,"","3");
+UNLOCK TABLES;
 
-
-
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    titre VARCHAR(255),
+    type_logement_id INT NOT NULL,
+    tarif DECIMAL(7,2),
+    surface DECIMAL(5,2),
+    nbreChambre INT,
+    nbrePieces INT NOT NULL,
+    description TEXT,
+    adress varchar(255),
+    codePostal INT(5)NOT NULL,
+    ville VARCHAR(255)NOT NULL,
+    capacite INT NOT NULL,
+    arriveeDebut TIME,
+    arriveeFin TIME,
+    fumeur BOOLEAN,
+    television BOOLEAN,
+    chauffage BOOLEAN,
+    climatisation BOOLEAN,
+    sdb BOOLEAN,
+    parking BOOLEAN,
+    laveLinge BOOLEAN,
+	wifi BOOLEAN,
+    hDepart TIME,
+    statut_id int NOT NULL

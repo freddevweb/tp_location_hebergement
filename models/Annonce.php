@@ -17,16 +17,16 @@ class Annonce {
     private $capacite;
     private $arriveeDebut;
     private $arriveeFin;
-    private $fumeur;
-    private $television;
-    private $chauffage;
-    private $climatisation;
-    private $sdb;
-    private $parking;
-    private $laveLinge;
-    private $wifi;
+    private $fumeur = 0;
+    private $television = 0;
+    private $chauffage = 0;
+    private $climatisation=0;
+    private $sdb = 0;
+    private $parking = 0;
+    private $laveLinge = 0;
+    private $wifi = 0;
     private $hDepart;
-    private $statut;
+    private $statutId;
     // *********** constructor
     public function __construct($donnees=array()){
         $this->hydrate($donnees);
@@ -35,7 +35,7 @@ class Annonce {
     // *********** hydrate
     public function hydrate(array $donneesTableau){
 
-        if(empty($donneesTableau) == false){
+        if(empty($donneesTableau) == FALSE){
             foreach ($donneesTableau as $key => $value){
                 $newString=$key;
                 if(preg_match("#_#",$key)){
@@ -198,13 +198,15 @@ class Annonce {
     public function setHDepart($hDepart){
         $this->hDepart = $hDepart;
     }
-    public function getStatut(){
-        return $this->statut;
+    public function getStatutId(){
+        return $this->statutId;
     }
-    public function setStatut($statut){
-        $this->statut = $statut;
+    public function setStatutId($statutId){
+        $this->statutId = $statutId;
     }
 
     // *********** methodes
-    
+    public function saveAnnonce(DbManager $dbmanager){
+        return $dbmanager->getAnnonceRepo()->saveAnnonce( $this );
+    }
 }

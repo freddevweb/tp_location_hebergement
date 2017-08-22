@@ -47,11 +47,13 @@ class AnnonceRepo {
 
 
     public function insertAnnonce ( Annonce $annonce){
-        $query = "INSERT INTO annonce SET user_id = :userId, titre = :titre, type_logement_id = :typeLogementId, tarif = :tarif, surface = surface, nbreChambre = nbreChambre, nbrePieces = :nbrePieces, description = description, codePostal = :codePostal, ville = ville, capacite = :capacite, arriveeDebut = :arriveeDebut, arriveeFin = :arriveeFin, fumeur = :fumeur, television = television, chauffage = chauffage, climatisation = :climatisation, sdb = :sdb, parking = parking, laveLinge = laveLinge, wifi = wifi, hDepart = hDepart, statut = 1";
+        
+        $query = "INSERT INTO annonce SET user_id = :user_id, titre = :titre, type_logement_id = :type_logement_id, adress = :adress, tarif = :tarif, surface = :surface, nbreChambre = :nbreChambre, nbrePieces = :nbrePieces, description = :description, codePostal = :codePostal, ville = :ville, capacite = :capacite, arriveeDebut = :arriveeDebut, arriveeFin = :arriveeFin, fumeur = :fumeur, television = :television, chauffage = :chauffage, climatisation = :climatisation, sdb = :sdb, parking = :parking, laveLinge = :laveLinge, wifi = :wifi, hDepart = :hDepart, statut_id = 1";
         $values = array(
-            'userId'=>$annonce->getUserId(),
+            'user_id'=>$annonce->getUserId(),
             'titre'=>$annonce->getTitre(),
-            'typeLogementId'=>$annonce->getTypeLogementId(),
+            'type_logement_id'=>$annonce->getTypeLogementId(),
+            'adress'=>$annonce->getAdress(),
             'tarif'=>$annonce->getTarif(),
             'surface'=>$annonce->getSurface(),
             'nbreChambre'=>$annonce->getNbreChambre(),
@@ -70,13 +72,13 @@ class AnnonceRepo {
             'parking'=>$annonce->getParking(),
             'laveLinge'=>$annonce->getLaveLinge(),
             'wifi'=>$annonce->getWifi(),
-            'hDepart'=>$annonce->getHDepart()
+            'hDepart'=>$annonce->getHDepart(),
         );
 
         $pdo = $this->connexion->prepare($query);
         $pdo->execute($values);
-
-        return $pdo->rowCount();
+        
+        return $this->connexion->lastInsertId();
     }
 
     public function updateAnnonce ( Annonce $annonce){
@@ -110,22 +112,24 @@ class AnnonceRepo {
         $pdo = $this->connexion->prepare($query);
         $pdo->execute($values);
 
-        return $pdo->rowCount();
+        // var_dump()
+        return $pdo->lastIsertId();
     }
 
 
     public function saveAnnonce ( Annonce $annonce ){
         if ( empty( $annonce->getId() ) == TRUE ){
-            $row = $this->insertAnnonce($annonce);
+            $id = $this->insertAnnonce($annonce);
             $function = 1;
         }
         else {
             $row = $this->updateAnnonce($annonce);
+            $id=0;
             $function = 2;
         }
         $arrayReturn = [];
-        $arrayReturn[] = $function;
-        $arrayReturn[] = $row;
+        $arrayReturn["state"] = $function;
+        $arrayReturn["id"] = $id;
 
         return $arrayReturn;
     }

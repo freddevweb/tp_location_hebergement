@@ -2,6 +2,7 @@
 <?= $nav ?>
 <?php
 var_dump($data);
+// die();
 ?>
 <div class="container">
     <h3 class="text-center">Ajouter ou modifier un bien</h3>
@@ -27,15 +28,15 @@ var_dump($data);
                 <p>Coordonnees du logement</p>
                 <div class="form-group">
                     <label for="adress">Adresse</label>
-                    <input type="text" class="form-control" name ="adress" id="adress" placeholder="L'adresse de votre bien" value="<?= $data->getAdress() ?>">
+                    <input type="text" class="form-control" name ="adress" id="adress" placeholder="L'adresse de votre bien" value="<?php if(!empty($data))$data->getAdress(); ?>">
                 </div>
                 <div class="form-group">
                     <label for="cp">Code postas</label>
-                    <input type="text" class="form-control" name ="cp" id="cp" placeholder="Code postal de votre bien" value="<?= $data->getCodePostal() ?>">
+                    <input type="text" class="form-control" name ="cp" id="cp" placeholder="Code postal de votre bien" value="<?php if(!empty($data))$data->getCodePostal() ?>">
                 </div>
                 <div class="form-group">
                     <label for="ville">Ville</label>
-                    <input type="text" class="form-control" name ="ville" id="ville" placeholder="Ville de votre bien" value="<?= $data->getVille() ?>" />
+                    <input type="text" class="form-control" name ="ville" id="ville" placeholder="Ville de votre bien" value="<?php if(!empty($data)) $data->getVille() ?>" />
                 </div>
             </div >
             <!-- type  -->
@@ -44,37 +45,37 @@ var_dump($data);
                     <p>Type de logement</p>
                     <div class="radio">
                         <label for="chambre" class="radio">
-                            <input type="radio" name="type" value="chambre" id="chambre" <?php if($data->getTypeLogementId() == "chambre"){?>checked <?php } ?> />
+                            <input type="radio" name="type" value="1" id="chambre" <?php if(!empty($data) &&$data->getTypeLogementId() == 1){?>checked <?php } ?> />
                             Chambre 
                         </label>
                     </div>
                     <div class="radio">
                         <label for="dépendance" class="radio">
-                            <input type="radio" name="type" value="dependance" id="dependance" <?php if($data->getTypeLogementId() == "dependance"){?>checked <?php } ?> />
+                            <input type="radio" name="type" value="2" id="dependance" <?php if(!empty($data) &&$data->getTypeLogementId() == 2){?>checked <?php } ?> />
                             Dépendance
                         </label>
                     </div>
                     <div class="radio">
                         <label for="studio" class="radio">
-                            <input type="radio" name="type" value="studio" id="studio" <?php if($data->getTypeLogementId() == "studio"){?>checked <?php } ?> />
+                            <input type="radio" name="type" value="3" id="studio" <?php if(!empty($data) &&$data->getTypeLogementId() == 3){?>checked <?php } ?> />
                             Studio 
                         </label>
                     </div>
                     <div class="radio">
                         <label for="appartement" class="radio">
-                            <input type="radio" name="type" value="appartement" id="appartement" <?php if($data->getTypeLogementId() == "appartement"){?>checked <?php } ?> />
+                            <input type="radio" name="type" value="4" id="appartement" <?php if(!empty($data) &&$data->getTypeLogementId() == 4){?>checked <?php } ?> />
                             Appartement
                         </label>
                     </div>
                     <div class="radio">
                         <label for="maison_village" class="radio">
-                            <input type="radio" name="type" value="maison_village" id="maison_village" <?php if($data->getTypeLogementId() == "maison_village"){?>checked <?php } ?> >
+                            <input type="radio" name="type" value="maison_village" id="maison_village" <?php if(!empty($data) &&$data->getTypeLogementId() == "maison_village"){?>checked <?php } ?> >
                             Maison de village
                         </label>
                     </div>
                     <div class="radio">
                         <label for="villa" class="radio">
-                            <input type="radio" name="type" value="villa" id="villa" <?php if($data->getTypeLogementId() == "villa"){?>checked <?php } ?> />
+                            <input type="radio" name="type" value="5" id="villa" <?php if(!empty($data) &&$data->getTypeLogementId() == 5){?>checked <?php } ?> />
                             Villa
                         </label>
                     </div>
@@ -86,49 +87,49 @@ var_dump($data);
                     <p>Equipements du logement</p>
                     <div class="checkbox ">
                         <label for="fumeur" class="checkbox">
-                            <input type="checkbox" name="fumeur" value="fumeur" id="fumeur" <?php if($data->getFumeur() == "fumeur"){?>checked <?php } ?> />
+                            <input type="checkbox" name="fumeur" value="TRUE" id="fumeur" <?php if(!empty($data) && $data->getFumeur() == TRUE){?>checked <?php } ?> />
                             Fumeur
                         </label>
                     </div>
                     <div class="checkbox ">
                         <label for="television" class="checkbox">
-                            <input type="checkbox" name="television" value="television" id="television" <?php if($data->getTelevision() == "television"){?>checked <?php } ?> />
+                            <input type="checkbox" name="television" value="TRUE" id="television" <?php if(!empty($data) && $data->getTelevision() == TRUE){?>checked <?php } ?> />
                             Television
                         </label>
                     </div>
                     <div class="checkbox ">
                         <label for="chaufage" class="checkbox">
-                            <input type="checkbox" name="chaufage" value="chaufage" id="chaufage" <?php if($data->getChauffage() == "chaufage"){ ?>checked <?php } ?> />
+                            <input type="checkbox" name="chaufage" value="TRUE" id="chaufage" <?php if(!empty($data) && $data->getChauffage() == TRUE){ ?>checked <?php } ?> />
                             Chaufage
                         </label>
                     </div>
                     <div class="checkbox ">
                         <label for="climatisation" class="checkbox">
-                            <input type="checkbox" name="climatisation" value="climatisation" id="climatisation" <?php if($data->getClimatisation() == "climatisation"){?>checked <?php } ?> />
+                            <input type="checkbox" name="climatisation" value="TRUE" id="climatisation" <?php if( !empty($data) && $data->getClimatisation() == TRUE){?>checked <?php } ?> />
                             Climatisation
                         </label>
                     </div>
                     <div class="checkbox ">
                         <label for="sdb" class="checkbox">
-                            <input type="checkbox" name="sdb" value="sdb" id="sdb" <?php if($data->getSdb() == "sdb"){?>checked <?php } ?> />
+                            <input type="checkbox" name="sdb" value="TRUE" id="sdb" <?php if( !empty($data) && $data->getSdb() == TRUE){?>checked <?php } ?> />
                             Salle de bain
                         </label>
                     </div>
                     <div class="checkbox ">
                         <label for="villa" class="checkbox">
-                            <input type="checkbox" name="parking" value="parking" id="parking" <?php if($data->getParking() == "parking"){?>checked <?php } ?> />
+                            <input type="checkbox" name="parking" value="TRUE" id="parking" <?php if( !empty($data) && $data->getParking() == TRUE){?>checked <?php } ?> />
                             Parking
                         </label>
                     </div>
                     <div class="checkbox ">
                         <label for="laveLinge" class="checkbox">
-                            <input type="checkbox" name="laveLinge" value="laveLinge" id="laveLinge" <?php if($data->getLaveLinge() == "laveLinge"){?>checked <?php } ?> />
+                            <input type="checkbox" name="laveLinge" value="TRUE" id="laveLinge" <?php if( !empty($data) && $data->getLaveLinge() == TRUE){?>checked <?php } ?> />
                             LaveLinge
                         </label>
                     </div>
                     <div class="checkbox ">
                         <label for="wifi" class="checkbox">
-                            <input type="checkbox" name="wifi" value="1" id="wifi" <?php if($data->getWifi() == "wifi"){?>checked <?php } ?> />
+                            <input type="checkbox" name="wifi" value="TRUE" id="wifi" <?php if( !empty($data) && $data->getWifi() == TRUE){?>checked <?php } ?> />
                             wifi
                         </label>
                     </div>
@@ -140,28 +141,28 @@ var_dump($data);
             <div class="col-lg-6 col-md-6 col-sm-12-col-xs-12">
                 <div class="form-group">
                     <label for="titre">Titre</label>
-                    <input type="text" class="form-control" name ="titre" id="titre" placeholder="Titre de votre annonce" value="<?= $data->getTitre() ?>">
+                    <input type="text" class="form-control" name ="titre" id="titre" placeholder="Titre de votre annonce" value="<?php if(!empty($data)) $data->getTitre() ?>">
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea class="form-control" name ="description" id="description" placeholder="Description de votre bien" value="<?= $data->getDescription() ?>"></textarea>
+                    <textarea class="form-control" name ="description" id="description" placeholder="Description de votre bien" value="<?php if(!empty($data)) $data->getDescription() ?>"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="surface">Surface</label>
-                    <input type="text" class="form-control" name ="surface" id="surface" value="<?= $data->getSurface() ?>">
+                    <input type="text" class="form-control" name ="surface" id="surface" value="<?php if(!empty($data)) $data->getSurface() ?>">
                 </div>
                 <div class="form-group">
                     <label for="pieces">Nombre de pièces</label>
-                    <input type="number" class="form-control" name ="pieces" id="pieces" value="<?= $data->getNbrePieces() ?>">
+                    <input type="number" class="form-control" name ="pieces" id="pieces" value="<?php if(!empty($data)) $data->getNbrePieces() ?>">
 
                 </div>
                 <div class="form-group">
                     <label for="titre">Nombre de chambres</label>
-                    <input type="number" class="form-control" name ="chambre" id="titre" value="<?= $data->getNbreChambre() ?>">
+                    <input type="number" class="form-control" name ="chambre" id="titre" value="<?php if(!empty($data)) $data->getNbreChambre() ?>">
                 </div>
                 <div class="form-group">
                     <label for="capacite">Capacité d'hébergement</label>
-                    <input type="number" class="form-control" name ="capacite" id="capacite" value="<?= $data->getCapacite() ?>">
+                    <input type="number" class="form-control" name ="capacite" id="capacite" value="<?php if(!empty($data)) $data->getCapacite() ?>">
                 </div>
                 
             </div>
@@ -170,21 +171,21 @@ var_dump($data);
                 <p>Créneau horaire de récupération des clés</p>
                 <div class="form-group">
                     <label for="heureCleMin">Créneau horaire de récupération des clés: partir de :</label>
-                    <input type="time" class="form-control" name ="heureCleMin" id="heureCleMin" value="<?= $data->getArriveeDebut() ?>">
+                    <input type="time" class="form-control" name ="heureCleMin" id="heureCleMin" value="<?php if(!empty($data)) $data->getArriveeDebut() ?>">
                 </div>
                 <div class="form-group">
                     <label for="heureCleMax">Créneau horaire de récupération des clés: jusqu'à :</label>
-                    <input type="time" class="form-control" name ="heureCleMax" id="heureCleMax" value="<?= $data->getArriveeFin() ?>">
+                    <input type="time" class="form-control" name ="heureCleMax" id="heureCleMax" value="<?php if(!empty($data)) $data->getArriveeFin() ?>">
                 </div>
                 <div class="form-group">
                     <label for="depart">Heure de départ maximum en fin de location : </label>
-                    <input type="time" class="form-control" name ="depart" id="depart" value="<?= $data->getHDepart() ?>">
+                    <input type="time" class="form-control" name ="depart" id="depart" value="<?php if(!empty($data)) $data->getHDepart() ?>">
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12-col-xs-12">
                 <div class="form-group">
                     <label for="tarif">Tarif par nuitée</label>
-                    <input type="number" class="form-control" name ="tarif" id="tarif" value="<?= $data->getTarif() ?>">
+                    <input type="number" class="form-control" name ="tarif" id="tarif" value="<?php if(!empty($data)) $data->getTarif() ?>">
                 </div>
             </div>
         </div> 

@@ -77,39 +77,42 @@ class PhotoRepo {
         return $arrayReturn;
     }
 
-    public function controlUpload(){
+    public function save( Photo $photo){
+        var_dump($photo);
+        $query = "INSERT INTO photo SET annonce_id = :annonce_id, type_id = :type_id, titre = :titre, photo_path = :photo_path";
+        $values = array(
+            'annonce_id'=>$photo->getAnnonceId(),
+            'type_id'=>$photo->getType(),
+            'titre'=>$photo->getTitre(),
+            'photo_path'=>$photo->getPhotoPath(),
+        );
 
-        $target_path = "uploads/";
-
-        $target_path = $target_path . basename( $_FILES['uploadedfile']['name']);
-
-        if (isset($_FILES['uploadedfile']) AND $_FILES['uploadedfile']['error'] == 0)
-        {
-            // Testons si le fichier n'est pas trop gros
-            if ($_FILES['uploadedfile']['size'] <= 1000000)
-            {
-                // Testons si l'extension est autorisée
-                $infosfichier = pathinfo($_FILES['uploadedfile']['name']);
-
-                $extension_upload = $infosfichier['extension'];
-                $extensions_autorisees = array('jpeg', 'gif', 'png');// à tester le JPG et JPEG en majuscule
-                if (in_array($extension_upload, $extensions_autorisees))
-                {
-                    // On peut valider le fichier et le stocker définitivement
-                    $newName = hash('sha1',$_FILES['uploadedfile']['name']).'.'.$extension_upload;
-                    move_uploaded_file($_FILES['uploadedfile']['tmp_name'], 'uploads/' . basename($newName));
-                    echo "Transfert du fichier complété !";
-                }
-            }else{
-                echo 'Erreur fichier trop gros';
-            }
-        }else{
-            $erreur = $_FILES['uploadedfile']['error'];
-            echo "Le transfert du fichier a subis une erreur de code $erreur";
-        }
+        $pdo = $this->connexion->prepare($query);
+        $pdo->execute($values);
     }
 
+    public function delete( Photo $photo){
 
+        unlink($photo->getPhotoPath());
+
+        $name = preg_replace( "../photos/", $photo->getPhotoPath(), "" );
+        $path = scandir("photos/");
+        if(in_array($name, $path)){
+            $query = "DELETE FROM photo WHERE id = :id";
+            $values = array(
+                'id'=> $photo->getId()
+            );
+            $objet = $this->connexion->prepare($query);
+            $objet->execute($values);
+            $msg = "La photo a bien été supprimée.";
+        }
+        else{
+            $msg = "La photo n'a pas pu été supprimée, veuillez contacter notre service client.";
+        }
+
+        return $msg;
+        
+    }
 
 
 

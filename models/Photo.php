@@ -4,6 +4,7 @@ class Photo {
     
     private $id;
     private $annonceId;
+    private $type;
     private $titre;
     private $photoPath;
 
@@ -46,6 +47,12 @@ class Photo {
     public function setAnnonceId($annonceId){
         $this->annonceId = $annonceId;
     }
+    public function getType(){
+        return $this->type;
+    }
+    public function setType($type){
+        $this->type = $type;
+    }
     public function getTitre(){
         return $this->titre;
     }
@@ -61,4 +68,8 @@ class Photo {
     
     // *********** methodes
     
+    public function save(DbManager $dbmanager){
+        $dbmanager->getPhotoRepo()->save( $this );
+    }
+
 }

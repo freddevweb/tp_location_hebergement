@@ -80,13 +80,43 @@ Flight::route('/dashboardUser', function(){
 });
 // ##############################################################
 // ##############################################################
-Flight::route('/annonces', function(){
+Flight::route('/annonces(/@request/@value)', function($request, $value){
+
     $db = new DbManager();
     $annonceRepo = $db->getAnnonceRepo();
-    $annonces = $annonceRepo->getAnnoncesByHote($_SESSION['id']);
+
+    switch ($_SESSION["type"]){
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            if( $request == "all"){
+                $annonces = $annonceRepo->getAllAnnonces();
+                Flight::render('annonces', array(
+            
+                ));
+            }
+            if( $request == "mes"){
+                $annonces = $annonceRepo->getAnnoncesByHote($_SESSION['id']);
+                Flight::render('annonces', array(
+            
+                ));
+            }
+            
+            
+            break;
+        case 4:
+            break;
+        default:
+            $annonces = $annonceRepo->getAllAnnonces($_SESSION['id'])
+    }
+    
+
     Flight::render('annonces', array(
         
     ));
+
 
 });
 
@@ -123,25 +153,41 @@ Flight::route('/formAddAnnonce', function(){
         "data" => $data
     ));
 
+    if(isset($_SESSION["error"])){    unset($_SESSION["error"]);    }
+    if(isset($_SESSION["conseil"])){    unset($_SESSION["conseil"]);    }
+    if(isset($_SESSION["data"])){    unset($_SESSION["data"]);    }
+
 });
 
 // ##############################################################
 Flight::route('/addPhoto', function(){
-    if(isset($_SESSION["annonceId"])){
-        $db = new DbManager();
-        $photoRepo = $db->getPhotoRepo();
-        $path = $photoRepo->getPhotoByAnnonce($annonceId);
-    }else { $path = array(); }
-    
-    $annonceId = 1;
+    if(isset($_SESSION["conseil"])){
+        $conseil = $_SESSION["conseil"];
+    }
+    else{
+        $conseil = array();
+    }
+
+    if(isset($_SESSION["msg"])){
+        $msg = $_SESSION["msg"];
+    }
+    else{
+        $msg = array();
+    }
+
     $db = new DbManager();
-        $photoRepo = $db->getPhotoRepo();
-        $path = $photoRepo->getPhotoByAnnonce($annonceId);
-        var_dump($path);
+    $photoRepo = $db->getPhotoRepo();
+    $path = $photoRepo->getPhotoByAnnonce($_SESSION["annonceId"]);
 
     Flight::render('formAddPhoto', array(
-        "path"=>$path
+        "path"=>$path,
+        "msg"=>$msg,
+        "conseil"=>$conseil
     ));
+
+    if(isset($_SESSION["msg"])){    unset($_SESSION["msg"]);    }
+    if(isset($_SESSION["conseil"])){    unset($_SESSION["conseil"]);    }
+    
 
 });
 // ##############################################################

@@ -122,28 +122,28 @@
     }
     else {
         if( !empty($_POST["television"]) ){
-            $newAnnonce->setTelevision($_POST["television"]);
+            $newAnnonce->setTelevision(1);
         }
         if( !empty($_POST["chaufage"]) ){
-            $newAnnonce->setChauffage($_POST["chaufage"]);
+            $newAnnonce->setChauffage(1);
         }
         if( !empty($_POST["climatisation"]) ){
-            $newAnnonce->setClimatisation($_POST["climatisation"]);
+            $newAnnonce->setClimatisation(1);
         }
         if( !empty($_POST["sdb"]) ){
-            $newAnnonce->setSdb($_POST["sdb"]);
+            $newAnnonce->setSdb(1);
         }
         if( !empty($_POST["parking"]) ){
-            $newAnnonce->setParking($_POST["parking"]);
+            $newAnnonce->setParking(1);
         }
         if( !empty($_POST["laveLinge"]) ){
-            $newAnnonce->setLaveLinge($_POST["laveLinge"]);
+            $newAnnonce->setLaveLinge(1);
         }
         if( !empty($_POST["wifi"]) ){
-            $newAnnonce->setWifi($_POST["wifi"]);
+            $newAnnonce->setWifi(1);
         }
         if( !empty($_POST["fumeur"]) ){
-            $newAnnonce->setFumeur($_POST["fumeur"]);
+            $newAnnonce->setFumeur(1);
         }
     }
     if( !empty($_POST['heureCleMin']) ){
@@ -156,8 +156,8 @@
 if( empty( $error ) ){
     $link = 'Location:../addPhoto';
     $_SESSION["conseil"] = $conseil;
-    // $db = new DbManager();
-    // $newAnnonce->saveAnnonce($db);
+    $db = new DbManager();
+    $_SESSION['annonceId'] = $newAnnonce->saveAnnonce($db)["id"];
 }
 else{
     $link = 'Location:../formAddAnnonce';
@@ -165,7 +165,7 @@ else{
     $_SESSION["conseil"] = $conseil;
     $_SESSION["data"] = $newAnnonce;
 }
-    $link = 'Location:../addPhoto';
+
 header($link);
 
 
