@@ -3,7 +3,7 @@ CREATE DATABASE RbnbLight;
 SET NAMES utf8;
 
 USE RbnbLight;
-
+-- unlock table;
 
 CREATE TABLE user (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -194,6 +194,8 @@ ADD CONSTRAINT fk_photo_photo_type
 -- #######################################################
 -- #######################################################
 
+
+
 LOCK TABLES logement_type WRITE;
 INSERT INTO logement_type VALUES
 (1,"chambre"),
@@ -243,33 +245,40 @@ INSERT INTO photo_type VALUES
 ;
 UNLOCK TABLES;
 
-LOCK TABLES photo_type WRITE;
-INSERT INTO photo_type VALUES
-(1,3,"","3");
+
+    
+LOCK TABLES photo WRITE;
+INSERT INTO photo VALUES
+(1,1,1,"chambre", "photos/e2534768ca9f12cc407be696ebdb3b41e1c8ad0a.jpg"),
+(2,1,1,"bureau", "photos/131ce5fb9931135d3817a2bfe6139747ff654666.jpg"),
+(3,1,3,"terrasse", "photos/a529581be273921d24e1afb9fdf23e01445848f2.jpg"),
+(4,2,1,"chambre", "photos/e2534768ca9f12cc407be696ebdb3b41e1c8ad0a.jpg"),
+(5,2,1,"bureau", "photos/131ce5fb9931135d3817a2bfe6139747ff654666.jpg"),
+(6,2,3,"terrasse", "photos/a529581be273921d24e1afb9fdf23e01445848f2.jpg"),
+(7,3,1,"chambre", "photos/e2534768ca9f12cc407be696ebdb3b41e1c8ad0a.jpg"),
+(8,3,1,"bureau", "photos/131ce5fb9931135d3817a2bfe6139747ff654666.jpg"),
+(9,3,3,"terrasse", "photos/a529581be273921d24e1afb9fdf23e01445848f2.jpg"),
+(10,4,1,"chambre", "photos/e2534768ca9f12cc407be696ebdb3b41e1c8ad0a.jpg"),
+(11,4,1,"bureau", "photos/131ce5fb9931135d3817a2bfe6139747ff654666.jpg"),
+(12,4,3,"terrasse", "photos/a529581be273921d24e1afb9fdf23e01445848f2.jpg"),
+(13,5,1,"chambre", "photos/e2534768ca9f12cc407be696ebdb3b41e1c8ad0a.jpg"),
+(14,5,1,"bureau", "photos/131ce5fb9931135d3817a2bfe6139747ff654666.jpg"),
+(15,5,3,"terrasse", "photos/a529581be273921d24e1afb9fdf23e01445848f2.jpg"),
+(16,6,1,"chambre", "photos/e2534768ca9f12cc407be696ebdb3b41e1c8ad0a.jpg"),
+(17,6,1,"bureau", "photos/131ce5fb9931135d3817a2bfe6139747ff654666.jpg"),
+(18,6,3,"terrasse", "photos/a529581be273921d24e1afb9fdf23e01445848f2.jpg")
+;
 UNLOCK TABLES;
 
-id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    titre VARCHAR(255),
-    type_logement_id INT NOT NULL,
-    tarif DECIMAL(7,2),
-    surface DECIMAL(5,2),
-    nbreChambre INT,
-    nbrePieces INT NOT NULL,
-    description TEXT,
-    adress varchar(255),
-    codePostal INT(5)NOT NULL,
-    ville VARCHAR(255)NOT NULL,
-    capacite INT NOT NULL,
-    arriveeDebut TIME,
-    arriveeFin TIME,
-    fumeur BOOLEAN,
-    television BOOLEAN,
-    chauffage BOOLEAN,
-    climatisation BOOLEAN,
-    sdb BOOLEAN,
-    parking BOOLEAN,
-    laveLinge BOOLEAN,
-	wifi BOOLEAN,
-    hDepart TIME,
-    statut_id int NOT NULL
+LOCK TABLES favoris WRITE;
+INSERT INTO favoris VALUES
+(1,1,1),
+(2,1,2),
+(3,1,3),
+(4,1,4),
+(5,2,1),
+(6,2,2),
+(7,2,3),
+(8,3,1),
+(9,3,2);
+UNLOCK TABLES;

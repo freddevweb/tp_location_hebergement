@@ -134,7 +134,32 @@ class AnnonceRepo {
         return $arrayReturn;
     }
 
+    public function getAnnonces(){
+        $query = "SET @id = 0";
+        $query .= "SELECT a.* , @id := a.id, 
+                        (select count(annonce_id)
+                        from favoris
+                        where annonce_id = @id ) as nombre
+                    FROM annonce as a 
+                    WHERE statut_id = 1 order by nombre desc";
+        
+        $values = array(   );
+        $objet = $this->connexion->prepare(multi_query($query));
+        $objet->execute($values);
 
+        var_dump($objet);
+        die();
+        $annonce = $objet->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!empty($annonce)){
+            $arrayAnnonce = [];
+            foreach ( $annonce as $tableauAnnonce){
+                $arrayAnnonce[]= new Annonce($tableauAnnonce);
+            }
+            return $arrayAnnonce;
+        }
+        return FALSE;
+    }
 
 
 } 

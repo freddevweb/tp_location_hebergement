@@ -1,9 +1,6 @@
 <?= $header ?>
 <?= $nav ?>
-<?php
-var_dump($data);
-// die();
-?>
+
 <div class="container">
     <h3 class="text-center">Ajouter ou modifier un bien</h3>
     <div class="row">

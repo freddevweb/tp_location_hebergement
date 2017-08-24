@@ -47,7 +47,6 @@ Flight::route('/', function(){
 // ##############################################################
 // ##############################################################
 Flight::route('/dashboardAdmin', function(){
-
     Flight::render('dashboardAdmin', array(
     ));
 });
@@ -61,18 +60,13 @@ Flight::route('/dashboardControler', function(){
 
 // ##############################################################
 Flight::route('/dashboardRender', function(){
-    $db = new DbManager();
-
-    
     Flight::render('dashboardRender', array(
         
     ));
-
 });
 
 // ##############################################################
 Flight::route('/dashboardUser', function(){
-    //$db = new DbManager();
     Flight::render('dashboardUser', array(
         
     ));
@@ -80,48 +74,48 @@ Flight::route('/dashboardUser', function(){
 });
 // ##############################################################
 // ##############################################################
-Flight::route('/annonces(/@request/@value)', function($request, $value){
+Flight::route('/annonces', function(){
+
+    // switch ($_SESSION["type"]){
+    //     case 1:
+    //         break;
+    //     case 2:
+    //         break;
+    //     case 3:
+    //         if( $request == "all"){
+    //             $annonces = $annonceRepo->getAllAnnonces();
+    //             Flight::render('annonces', array(
+            
+    //             ));
+    //         }
+    //         if( $request == "mes"){
+    //             $annonces = $annonceRepo->getAnnoncesByHote($_SESSION['id']);
+    //             Flight::render('annonces', array(
+            
+    //             ));
+    //         }
+            
+            
+    //         break;
+    //     case 4:
+    //         break;
+    //     default:
+    //         $annonces = $annonceRepo->getAllAnnonces($_SESSION['id']);
+    // }
 
     $db = new DbManager();
     $annonceRepo = $db->getAnnonceRepo();
+    $annonce = $annonceRepo->getAnnonces();
 
-    switch ($_SESSION["type"]){
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            if( $request == "all"){
-                $annonces = $annonceRepo->getAllAnnonces();
-                Flight::render('annonces', array(
-            
-                ));
-            }
-            if( $request == "mes"){
-                $annonces = $annonceRepo->getAnnoncesByHote($_SESSION['id']);
-                Flight::render('annonces', array(
-            
-                ));
-            }
-            
-            
-            break;
-        case 4:
-            break;
-        default:
-            $annonces = $annonceRepo->getAllAnnonces($_SESSION['id'])
-    }
-    
-
-    Flight::render('annonces', array(
-        
+    Flight::render('annonceAll', array(
+        "annonce" => $annonce
     ));
 
 
 });
 
 // ##############################################################
-Flight::route('/annonceDetail', function(){
+Flight::route('/annonceDetail @id', function($id){
     $db = new DbManager();
     
 
@@ -144,8 +138,8 @@ Flight::route('/formAddAnnonce', function(){
         $data = $_SESSION["data"];
     } else { $data = array();}
 
-    $db = new DbManager();
-    $annonceRepo = $db->getAnnonceRepo();
+    // $db = new DbManager();
+    // $annonceRepo = $db->getAnnonceRepo();
 
     Flight::render('formAddAnnonce', array(
         "error" => $error,

@@ -166,6 +166,7 @@ else{
     $_SESSION["data"] = $newAnnonce;
 }
 
+
 header($link);
 
 
