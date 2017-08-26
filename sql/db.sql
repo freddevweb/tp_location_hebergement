@@ -51,6 +51,15 @@ CREATE TABLE annonce (
 
 )ENGINE=InnoDb;
 
+create table reservation (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	user_id INT NOT NULL,
+    annonce_id INT NOT NULL,
+    date_debut date NOT NULL,
+    date_fin date NOT NULL
+    
+)ENGINE=InnoDb;
+
 CREATE TABLE statut (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     statut varchar(255)
@@ -190,6 +199,17 @@ ALTER TABLE photo
 ADD CONSTRAINT fk_photo_photo_type
     FOREIGN KEY (type_id) 
     REFERENCES photo_type (id);
+    
+ALTER TABLE reservation
+ADD CONSTRAINT fk_reservation_user
+    FOREIGN KEY (user_id) 
+    REFERENCES user (id);  
+
+ALTER TABLE reservation
+ADD CONSTRAINT fk_reservation_annonce
+    FOREIGN KEY (annonce_id) 
+    REFERENCES annonce (id); 
+    
 
 -- #######################################################
 -- #######################################################
@@ -244,6 +264,7 @@ INSERT INTO photo_type VALUES
 (6,"photo 6")
 ;
 UNLOCK TABLES;
+
 
 
     

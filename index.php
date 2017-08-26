@@ -10,16 +10,16 @@ Flight::render('footer', array('traduction'=>'cool'), "footer");
 if( isset($_SESSION["type"]) ){
     switch($_SESSION["type"]){
         case 1:
-            Flight::render('navAdmin', array('heading'=>'Hello'), "nav");
+            Flight::render('navAdmin', array('url'=>'/2_dev_idem/php/tp_fred_le_grand_final/tp_location_hebergement/'), "nav");
             break;
         case 2:
-            Flight::render('navControleur', array('heading'=>'Hello'), "nav");
+            Flight::render('navControleur', array('url'=>'/2_dev_idem/php/tp_fred_le_grand_final/tp_location_hebergement/'), "nav");
             break;
         case 3:
-            Flight::render('navRender', array('heading'=>'title'), "nav");
+            Flight::render('navRender', array('url'=>'/2_dev_idem/php/tp_fred_le_grand_final/tp_location_hebergement/'), "nav");
             break;
         case 4:
-            Flight::render('navUser', array('heading'=>'title'), "nav");
+            Flight::render('navUser', array('url'=>'/2_dev_idem/php/tp_fred_le_grand_final/tp_location_hebergement/'), "nav");
             break;
     }
 }
@@ -37,8 +37,11 @@ Flight::route('/', function(){
         $error="";
     }
     $db = new DbManager();
+    $annonceRepo = $db->getAnnonceRepo();
+    $annonce = $annonceRepo->getAnnonces();
     Flight::render('accueil', array(
-        "error"=>$error
+        "error"=>$error,
+        "annonce"=>$annonce
     ));
     if( isset( $_SESSION["error"]) ){
         unset( $_SESSION["error"] );
@@ -74,40 +77,14 @@ Flight::route('/dashboardUser', function(){
 });
 // ##############################################################
 // ##############################################################
-Flight::route('/annonces', function(){
 
-    // switch ($_SESSION["type"]){
-    //     case 1:
-    //         break;
-    //     case 2:
-    //         break;
-    //     case 3:
-    //         if( $request == "all"){
-    //             $annonces = $annonceRepo->getAllAnnonces();
-    //             Flight::render('annonces', array(
-            
-    //             ));
-    //         }
-    //         if( $request == "mes"){
-    //             $annonces = $annonceRepo->getAnnoncesByHote($_SESSION['id']);
-    //             Flight::render('annonces', array(
-            
-    //             ));
-    //         }
-            
-            
-    //         break;
-    //     case 4:
-    //         break;
-    //     default:
-    //         $annonces = $annonceRepo->getAllAnnonces($_SESSION['id']);
-    // }
-
+Flight::route('/annoncesRender', function(){
+    $hote = $_SESSION;
     $db = new DbManager();
     $annonceRepo = $db->getAnnonceRepo();
-    $annonce = $annonceRepo->getAnnonces();
-
-    Flight::render('annonceAll', array(
+    $annonce = $annonceRepo->getAnnoncesByHote($_SESSION["id"]);
+    
+    Flight::render('annonces', array(
         "annonce" => $annonce
     ));
 
@@ -115,13 +92,30 @@ Flight::route('/annonces', function(){
 });
 
 // ##############################################################
-Flight::route('/annonceDetail @id', function($id){
-    $db = new DbManager();
-    
+Flight::route('/annoncesAll', function(){
 
-    Flight::render('locationDetail', array(
-        
+    $db = new DbManager();
+    $annonceRepo = $db->getAnnonceRepo();
+    $annonce = $annonceRepo->getAnnonces();
+
+    Flight::render('annoncesAll', array(
+        "annonce" => $annonce
     ));
+
+
+});
+
+// ##############################################################
+Flight::route('/detail/@id', function($id){
+
+    $db = new DbManager();
+    $annonceRepo = $db->getAnnonceRepo();
+    $annonce = $annonceRepo->getAnnonceById($id);
+
+    Flight::render('annonceDetail', array(
+        "annonce"=>$annonce
+    ));
+    
 
 });
 
@@ -137,9 +131,6 @@ Flight::route('/formAddAnnonce', function(){
     if(isset($_SESSION["data"])) {
         $data = $_SESSION["data"];
     } else { $data = array();}
-
-    // $db = new DbManager();
-    // $annonceRepo = $db->getAnnonceRepo();
 
     Flight::render('formAddAnnonce', array(
         "error" => $error,

@@ -9,38 +9,73 @@ class AnnonceRepo {
     }
     
     public function getAnnoncesByHote( $hoteId ){
-        $query = 'SELECT * FROM annonce WHERE user_id = :id';
-        $values = array( 
-            'id'=>$hoteId
-        );
-        $objet = $this->connexion->prepare($query);
-        $objet->execute($values);
+        $queryAnn = "SELECT id, titre, tarif FROM annonce WHERE statut_id = 1 and user_id = :hote order by id asc";
+        $valuesAnn = array( 
+            "hote"=> $hoteId
+          );
+        $objetAnn = $this->connexion->prepare($queryAnn);
+        $objetAnn->execute($valuesAnn);
+        $annonce = $objetAnn->fetchAll(PDO::FETCH_ASSOC);
 
-        $annonce = $objet->fetchAll(PDO::FETCH_ASSOC);
+        $queryPhoto = "SELECT *  FROM photo order by annonce_id, type_id  ";
+        $valuesPhoto = array(   );
+        $objetPhoto = $this->connexion->prepare($queryPhoto);
+        $objetPhoto->execute($valuesPhoto);
+        $photo = $objetPhoto->fetchAll(PDO::FETCH_ASSOC);
+
+
+        foreach($annonce as &$value){
+
+            $value["photos"] = [];
+            
+            foreach($photo as $val){
+
+                if( $value["id"] == $val["annonce_id"]){
+
+                    $value["photos"][] = $val;
+
+                }
+            }
+        }
 
         if (!empty($annonce)){
-            $arrayAnnonce = [];
-            foreach ( $annonce as $tableauAnnonce){
-                $arrayAnnonce[]= new Annonce($tableauAnnonce);
-            }
-            return $arrayAnnonce;
+            return $annonce;
         }
         return FALSE;
     }
 
-    public function getAnnonce ( $id ){
-        $query = 'SELECT * FROM annonce WHERE id = :id';
-        $values = array( 
-            'id'=>$id
-        );
-        $objet = $this->connexion->prepare($query);
-        $objet->execute($values);
+    public function getAnnonceById($id){
 
-        $annonce = $objet->fetchAll(PDO::FETCH_ASSOC);
+        $values = array(  
+            "id" => $id
+         );
 
-        if (!empty($annonce)){
+        $queryAnn = "SELECT *  FROM annonce WHERE id = :id";
+        $objetAnn = $this->connexion->prepare($queryAnn);
+        $objetAnn->execute($values);
+        $annonce = $objetAnn->fetchAll(PDO::FETCH_ASSOC);
+
+        $queryPhoto = "SELECT *  FROM photo where annonce_id = :id ";
+        $objetPhoto = $this->connexion->prepare($queryPhoto);
+        $objetPhoto->execute($values);
+        $photo = $objetPhoto->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($annonce as &$value){
+
+            $value["photos"] = [];
             
-            return new Annonce($annonce[0]);
+            foreach($photo as $val){
+
+                if( $value["id"] == $val["annonce_id"]){
+
+                    $value["photos"][] = $val;
+
+                }
+            }
+        }
+
+        if (!empty($annonce[0])){
+            return $annonce[0];
         }
         return FALSE;
     }
@@ -72,7 +107,7 @@ class AnnonceRepo {
             'parking'=>$annonce->getParking(),
             'laveLinge'=>$annonce->getLaveLinge(),
             'wifi'=>$annonce->getWifi(),
-            'hDepart'=>$annonce->getHDepart(),
+            'hDepart'=>$annonce->getHDepart()
         );
 
         $pdo = $this->connexion->prepare($query);
@@ -82,12 +117,13 @@ class AnnonceRepo {
     }
 
     public function updateAnnonce ( Annonce $annonce){
-        $query = "UPDATE INTO annonce SET user_id = :userId, titre = :titre, type_logement_id = :typeLogementId, tarif = :tarif, surface = surface, nbreChambre = nbreChambre, nbrePieces = :nbrePieces, description = description, codePostal = :codePostal, ville = ville, capacite = :capacite, arriveeDebut = :arriveeDebut, arriveeFin = :arriveeFin, fumeur = :fumeur, television = television, chauffage = chauffage, climatisation = :climatisation, sdb = :sdb, parking = parking, laveLinge = laveLinge, wifi = wifi, hDepart = hDepart, statut = 1 WHERE id = :id";
+        $query = "UPDATE annonce SET user_id = :user_id, titre = :titre, type_logement_id = :type_logement_id, adress = :adress, tarif = :tarif, surface = :surface, nbreChambre = :nbreChambre, nbrePieces = :nbrePieces, description = :description, codePostal = :codePostal, ville = :ville, capacite = :capacite, arriveeDebut = :arriveeDebut, arriveeFin = :arriveeFin, fumeur = :fumeur, television = :television, chauffage = :chauffage, climatisation = :climatisation, sdb = :sdb, parking = :parking, laveLinge = :laveLinge, wifi = :wifi, hDepart = :hDepart, statut_id = 2 WHERE id = :id";
         $values = array(
             'id'=>$annonce->getId(),
-            'userId'=>$annonce->getUserId(),
+            'user_id'=>$annonce->getUserId(),
             'titre'=>$annonce->getTitre(),
-            'typeLogementId'=>$annonce->getTypeLogementId(),
+            'type_logement_id'=>$annonce->getTypeLogementId(),
+            'adress'=>$annonce->getAdress(),
             'tarif'=>$annonce->getTarif(),
             'surface'=>$annonce->getSurface(),
             'nbreChambre'=>$annonce->getNbreChambre(),
@@ -112,13 +148,11 @@ class AnnonceRepo {
         $pdo = $this->connexion->prepare($query);
         $pdo->execute($values);
 
-        // var_dump()
-        return $pdo->lastIsertId();
     }
 
 
     public function saveAnnonce ( Annonce $annonce ){
-        if ( empty( $annonce->getId() ) == TRUE ){
+        if ( empty( $annonce->getId() )){
             $id = $this->insertAnnonce($annonce);
             $function = 1;
         }
@@ -135,31 +169,155 @@ class AnnonceRepo {
     }
 
     public function getAnnonces(){
-        $query = "SET @id = 0";
-        $query .= "SELECT a.* , @id := a.id, 
-                        (select count(annonce_id)
-                        from favoris
-                        where annonce_id = @id ) as nombre
-                    FROM annonce as a 
-                    WHERE statut_id = 1 order by nombre desc";
+
+        $queryAnn = "SELECT id, titre, tarif, capacite  FROM annonce WHERE statut_id = 1 order by id asc";
+        $valuesAnn = array(   );
+        $objetAnn = $this->connexion->prepare($queryAnn);
+        $objetAnn->execute($valuesAnn);
+        $annonce = $objetAnn->fetchAll(PDO::FETCH_ASSOC);
+
+        $queryPhoto = "SELECT *  FROM photo order by annonce_id, type_id  ";
+        $valuesPhoto = array(   );
+        $objetPhoto = $this->connexion->prepare($queryPhoto);
+        $objetPhoto->execute($valuesPhoto);
+        $photo = $objetPhoto->fetchAll(PDO::FETCH_ASSOC);
+
+        $queryFav = "SELECT annonce_id, count(annonce_id) from favoris group by annonce_id order by annonce_id";
+        $valuesFav = array(   );
+        $objetFav = $this->connexion->prepare($queryFav);
+        $objetFav->execute($valuesFav);
+        $fav = $objetFav->fetchAll(PDO::FETCH_ASSOC);
         
-        $values = array(   );
-        $objet = $this->connexion->prepare(multi_query($query));
-        $objet->execute($values);
+        $tableauAnnFav = array();
 
-        var_dump($objet);
-        die();
-        $annonce = $objet->fetchAll(PDO::FETCH_ASSOC);
-
-        if (!empty($annonce)){
-            $arrayAnnonce = [];
-            foreach ( $annonce as $tableauAnnonce){
-                $arrayAnnonce[]= new Annonce($tableauAnnonce);
+        foreach($annonce as $key => $value){
+            foreach($fav as $key1 => $value1){
+                if( $value["id"] == $value1["annonce_id"]){
+                    $value["count"] = $value1["count(annonce_id)"];
+                    break;
+                }
+                else{
+                    $value["count"] =0;
+                }
             }
-            return $arrayAnnonce;
+            $tableauAnnFav[]=$value;
+        }
+
+        foreach($tableauAnnFav as &$value){
+
+            $value["photos"] = [];
+            
+            foreach($photo as $val){
+
+                if( $value["id"] == $val["annonce_id"]){
+
+                    $value["photos"][] = $val;
+
+                }
+            }
+        }
+
+        usort($tableauAnnFav, function($a, $b){
+            if ($a["count"] == $b["count"]) {
+                return 0;
+            }
+            return ($a["count"] < $b["count"]) ? 1 : -1;
+        });
+
+        if (!empty($tableauAnnFav)){
+            return $tableauAnnFav;
         }
         return FALSE;
     }
 
 
-} 
+    public function getAnnoncesSearch( Annonce $annonce){
+
+        $queryAnn = "SELECT id, titre, tarif, capacite  FROM annonce WHERE statut_id = 1 order by id asc";
+        $valuesAnn = array(
+            'id'=>$annonce->getId(),
+            'userId'=>$annonce->getUserId(),
+            'titre'=>$annonce->getTitre(),
+            'typeLogementId'=>$annonce->getTypeLogementId(),
+            'tarif'=>$annonce->getTarif(),
+            'surface'=>$annonce->getSurface(),
+            'nbreChambre'=>$annonce->getNbreChambre(),
+            'nbrePieces'=>$annonce->getNbrePieces(),
+            'description'=>$annonce->getDescription(),
+            'codePostal'=>$annonce->getCodePostal(),
+            'ville'=>$annonce->getVille(),
+            'capacite'=>$annonce->getCapacite(),
+            'arriveeDebut'=>$annonce->getArriveeDebut(),
+            'arriveeFin'=>$annonce->getArriveeFin(),
+            'fumeur'=>$annonce->getFumeur(),
+            'television'=>$annonce->getTelevision(),
+            'chauffage'=>$annonce->getChauffage(),
+            'climatisation'=>$annonce->getClimatisation(),
+            'sdb'=>$annonce->getSdb(),
+            'parking'=>$annonce->getParking(),
+            'laveLinge'=>$annonce->getLaveLinge(),
+            'wifi'=>$annonce->getWifi(),
+            'hDepart'=>$annonce->getHDepart()
+        );
+        $objetAnn = $this->connexion->prepare($queryAnn);
+        $objetAnn->execute($valuesAnn);
+        $annonce = $objetAnn->fetchAll(PDO::FETCH_ASSOC);
+
+        $queryPhoto = "SELECT *  FROM photo order by annonce_id, type_id  ";
+        $valuesPhoto = array(   
+
+        );
+        $objetPhoto = $this->connexion->prepare($queryPhoto);
+        $objetPhoto->execute($valuesPhoto);
+        $photo = $objetPhoto->fetchAll(PDO::FETCH_ASSOC);
+
+        $queryFav = "SELECT annonce_id, count(annonce_id) from favoris group by annonce_id order by annonce_id";
+        $valuesFav = array(   );
+        $objetFav = $this->connexion->prepare($queryFav);
+        $objetFav->execute($valuesFav);
+        $fav = $objetFav->fetchAll(PDO::FETCH_ASSOC);
+        
+        $tableauAnnFav = array();
+
+        foreach($annonce as $key => $value){
+            foreach($fav as $key1 => $value1){
+                if( $value["id"] == $value1["annonce_id"]){
+                    $value["count"] = $value1["count(annonce_id)"];
+                    break;
+                }
+                else{
+                    $value["count"] =0;
+                }
+            }
+            $tableauAnnFav[]=$value;
+        }
+
+        foreach($tableauAnnFav as &$value){
+
+            $value["photos"] = [];
+            
+            foreach($photo as $val){
+
+                if( $value["id"] == $val["annonce_id"]){
+
+                    $value["photos"][] = $val;
+
+                }
+            }
+        }
+
+        usort($tableauAnnFav, function($a, $b){
+            if ($a["count"] == $b["count"]) {
+                return 0;
+            }
+            return ($a["count"] < $b["count"]) ? 1 : -1;
+        });
+
+        if (!empty($tableauAnnFav)){
+            return $tableauAnnFav;
+        }
+        return FALSE;
+    }
+
+
+}

@@ -1,5 +1,9 @@
 <?= $header ?>
 <?= $nav ?>
+<?php
+// var_dump($data);
+// die();
+?>
 
 <div class="container">
     <h3 class="text-center">Ajouter ou modifier un bien</h3>
@@ -25,15 +29,15 @@
                 <p>Coordonnees du logement</p>
                 <div class="form-group">
                     <label for="adress">Adresse</label>
-                    <input type="text" class="form-control" name ="adress" id="adress" placeholder="L'adresse de votre bien" value="<?php if(!empty($data))$data->getAdress(); ?>">
+                    <input type="text" class="form-control" name ="adress" id="adress" placeholder="L'adresse de votre bien" value="<?php if(!empty($data)){ echo $data->getAdress();} ?>">
                 </div>
                 <div class="form-group">
                     <label for="cp">Code postas</label>
-                    <input type="text" class="form-control" name ="cp" id="cp" placeholder="Code postal de votre bien" value="<?php if(!empty($data))$data->getCodePostal() ?>">
+                    <input type="text" class="form-control" name ="cp" id="cp" placeholder="Code postal de votre bien" value="<?php if(!empty($data))  echo $data->getCodePostal() ?>">
                 </div>
                 <div class="form-group">
                     <label for="ville">Ville</label>
-                    <input type="text" class="form-control" name ="ville" id="ville" placeholder="Ville de votre bien" value="<?php if(!empty($data)) $data->getVille() ?>" />
+                    <input type="text" class="form-control" name ="ville" id="ville" placeholder="Ville de votre bien" value="<?php if(!empty($data)) echo  $data->getVille() ?>" />
                 </div>
             </div >
             <!-- type  -->
@@ -42,7 +46,7 @@
                     <p>Type de logement</p>
                     <div class="radio">
                         <label for="chambre" class="radio">
-                            <input type="radio" name="type" value="1" id="chambre" <?php if(!empty($data) &&$data->getTypeLogementId() == 1){?>checked <?php } ?> />
+                            <input type="radio" name="type" value="1" id="chambre" <?php if(!empty($data) && $data->getTypeLogementId() == 1){?>checked <?php } ?> />
                             Chambre 
                         </label>
                     </div>
@@ -138,28 +142,28 @@
             <div class="col-lg-6 col-md-6 col-sm-12-col-xs-12">
                 <div class="form-group">
                     <label for="titre">Titre</label>
-                    <input type="text" class="form-control" name ="titre" id="titre" placeholder="Titre de votre annonce" value="<?php if(!empty($data)) $data->getTitre() ?>">
+                    <input type="text" class="form-control" name ="titre" id="titre" placeholder="Titre de votre annonce" value="<?php if(!empty($data))  echo  $data->getTitre() ?>">
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea class="form-control" name ="description" id="description" placeholder="Description de votre bien" value="<?php if(!empty($data)) $data->getDescription() ?>"></textarea>
+                    <textarea class="form-control" name ="description" id="description" placeholder="Description de votre bien"><?php if(!empty($data)) echo  $data->getDescription() ?></textarea>
                 </div>
                 <div class="form-group">
                     <label for="surface">Surface</label>
-                    <input type="text" class="form-control" name ="surface" id="surface" value="<?php if(!empty($data)) $data->getSurface() ?>">
+                    <input type="text" class="form-control" name ="surface" id="surface" value="<?php if(!empty($data))  echo $data->getSurface() ?>">
                 </div>
                 <div class="form-group">
                     <label for="pieces">Nombre de pièces</label>
-                    <input type="number" class="form-control" name ="pieces" id="pieces" value="<?php if(!empty($data)) $data->getNbrePieces() ?>">
+                    <input type="number" class="form-control" name ="pieces" id="pieces" value="<?php if(!empty($data))  echo $data->getNbrePieces() ?>">
 
                 </div>
                 <div class="form-group">
                     <label for="titre">Nombre de chambres</label>
-                    <input type="number" class="form-control" name ="chambre" id="titre" value="<?php if(!empty($data)) $data->getNbreChambre() ?>">
+                    <input type="number" class="form-control" name ="chambre" id="titre" value="<?php if(!empty($data)) echo  $data->getNbreChambre() ?>">
                 </div>
                 <div class="form-group">
                     <label for="capacite">Capacité d'hébergement</label>
-                    <input type="number" class="form-control" name ="capacite" id="capacite" value="<?php if(!empty($data)) $data->getCapacite() ?>">
+                    <input type="number" class="form-control" name ="capacite" id="capacite" value="<?php if(!empty($data)) echo  $data->getCapacite() ?>">
                 </div>
                 
             </div>
@@ -168,21 +172,21 @@
                 <p>Créneau horaire de récupération des clés</p>
                 <div class="form-group">
                     <label for="heureCleMin">Créneau horaire de récupération des clés: partir de :</label>
-                    <input type="time" class="form-control" name ="heureCleMin" id="heureCleMin" value="<?php if(!empty($data)) $data->getArriveeDebut() ?>">
+                    <input type="time" class="form-control" name ="heureCleMin" id="heureCleMin" value="<?php if(!empty($data))  echo $data->getArriveeDebut() ?>">
                 </div>
                 <div class="form-group">
                     <label for="heureCleMax">Créneau horaire de récupération des clés: jusqu'à :</label>
-                    <input type="time" class="form-control" name ="heureCleMax" id="heureCleMax" value="<?php if(!empty($data)) $data->getArriveeFin() ?>">
+                    <input type="time" class="form-control" name ="heureCleMax" id="heureCleMax" value="<?php if(!empty($data))  echo $data->getArriveeFin() ?>">
                 </div>
                 <div class="form-group">
                     <label for="depart">Heure de départ maximum en fin de location : </label>
-                    <input type="time" class="form-control" name ="depart" id="depart" value="<?php if(!empty($data)) $data->getHDepart() ?>">
+                    <input type="time" class="form-control" name ="depart" id="depart" value="<?php if(!empty($data))  echo $data->getHDepart() ?>">
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12-col-xs-12">
                 <div class="form-group">
                     <label for="tarif">Tarif par nuitée</label>
-                    <input type="number" class="form-control" name ="tarif" id="tarif" value="<?php if(!empty($data)) $data->getTarif() ?>">
+                    <input type="number" class="form-control" name ="tarif" id="tarif" value="<?php if(!empty($data)) echo  $data->getTarif() ?>">
                 </div>
             </div>
         </div> 

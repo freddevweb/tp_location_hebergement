@@ -9,9 +9,6 @@
         <a class="navbar-brand" href="#top">RBNB</a>
     </div>
     <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-
-        </ul>
         <div class="navbar-right navbar-form inline-form">
                 <button type="button" data-toggle="modal" data-target="#login" class="btn btn-inverse navbar-btn btn-sm">Log in</button>
                 <button type="button" data-toggle="modal" data-target="#signin" class="btn btn-inverse navbar-btn btn-sm">Sign in</button>

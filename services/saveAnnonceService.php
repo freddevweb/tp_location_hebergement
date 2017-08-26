@@ -16,14 +16,13 @@
     require "../models/UserType.php";
     require "../models/UserTypeRepo.php";
 
-
     if ( isset( $_SESSION["data"]) ){
         unset($_SESSION["data"]);
     }
     if ( isset( $_SESSION["error"]) ){
         unset($_SESSION["error"]);
     }
-
+    
     $error = array();
     $conseil = array();
     $data = array();
@@ -31,7 +30,7 @@
     $newAnnonce->setUserId($_SESSION['id']);
 
     if( !empty($_POST["id"]) ) {
-        $newAnnonce->setId($_POST["id"]);
+        $newAnnonce->setId( intval($_POST["id"]) );
     }
     if( empty($_POST["adress"]) ){
         $error[] = "L'adresse du logement n'a pas été renseignée";
@@ -153,21 +152,26 @@
         $heureCleMin = $_POST['heureCleMax'];
     }
 
-if( empty( $error ) ){
-    $link = 'Location:../addPhoto';
-    $_SESSION["conseil"] = $conseil;
-    $db = new DbManager();
-    $_SESSION['annonceId'] = $newAnnonce->saveAnnonce($db)["id"];
-}
-else{
-    $link = 'Location:../formAddAnnonce';
-    $_SESSION["error"] = $error;
-    $_SESSION["conseil"] = $conseil;
-    $_SESSION["data"] = $newAnnonce;
-}
+    
+    if( empty( $error ) ){
+        $link = 'Location:../addPhoto';
+        $_SESSION["conseil"] = $conseil;
+        $db = new DbManager();
+        $array = $newAnnonce->saveAnnonce($db);
+        $_SESSION['annonceId']=$array['id'];
+        if (isset($_POST["from"])){
+            $_SESSION["data"] = $newAnnonce;
+            $link='Location:../formAddAnnonce';
+        }
+    }
+    else{
+        $link = 'Location:../formAddAnnonce';
+        $_SESSION["error"] = $error;
+        $_SESSION["conseil"] = $conseil;
+        $_SESSION["data"] = $newAnnonce;
+    }
 
-
-header($link);
+    header($link);
 
 
 

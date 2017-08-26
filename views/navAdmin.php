@@ -43,6 +43,7 @@
                     <li><a href="#">Top</a></li>
                 </ul>
             </div>
+            <li> <a class="btn btn-inverse btn-xs" href="annoncesAll">Voyager</a> </li>
         </ul>
         <div class="navbar-right navbar-form inline-form">
             <a href="profil">

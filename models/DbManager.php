@@ -10,6 +10,7 @@ class DbManager {
     private $photoRepo;
     private $userRepo;
     private $userTypeRepo;
+    private $reservationRepo;
 
 
     public function __construct(){
@@ -21,6 +22,8 @@ class DbManager {
         $this->setPhotoRepo(new PhotoRepo($this->connexion));
         $this->setUserRepo(new UserRepo($this->connexion));
         $this->setUserTypeRepo(new UserTypeRepo($this->connexion));
+        $this->setReservationRepo(new ReservationRepo($this->connexion));
+
     }
 
 
@@ -59,5 +62,11 @@ class DbManager {
     }
     public function setUserTypeRepo($userTypeRepo){
         $this->userTypeRepo = $userTypeRepo;
+    }
+    public function getReservationRepo(){
+        return $this->reservationRepo;
+    }
+    public function setReservationRepo($reservationRepo){
+        $this->reservationRepo = $reservationRepo;
     }
 }

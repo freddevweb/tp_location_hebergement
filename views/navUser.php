@@ -10,6 +10,7 @@
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
             <li> <a href="/">Accueil</a> </li>
+            <li> <a class="btn btn-inverse btn-xs" href="annoncesAll">Voyager</a></li>
         </ul>
         <div class="navbar-right navbar-form inline-form">
             <a href="profil">
