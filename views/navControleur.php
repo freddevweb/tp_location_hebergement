@@ -45,10 +45,10 @@
             <li> <a class="btn btn-inverse btn-xs" href="annoncesAll">Voyager</a> </li>
         </ul>
         <div class="navbar-right navbar-form inline-form">
-            <a href="profil">
+            <a href="<?=$url?>profil">
                 <span class="glyphicon glyphicon-user" title="Votre compte"></span>
             </a>
-            <a href="services/logoutService.php">
+            <a href="<?=$url?>services/logoutService.php">
                 <span class="glyphicon glyphicon-share" title="Logout"></span>
             </a>
         </div>

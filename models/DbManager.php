@@ -16,13 +16,13 @@ class DbManager {
     public function __construct(){
         $this->connexion = Connexion::getConnexion();
 
-        $this->setAnnonceRepo(new AnnonceRepo($this->connexion));
-        $this->setCommentaireRepo(new CommentaireRepo($this->connexion));
-        $this->setLocationRepo(new LocationRepo($this->connexion));
-        $this->setPhotoRepo(new PhotoRepo($this->connexion));
-        $this->setUserRepo(new UserRepo($this->connexion));
-        $this->setUserTypeRepo(new UserTypeRepo($this->connexion));
-        $this->setReservationRepo(new ReservationRepo($this->connexion));
+        $this->setAnnonceRepo( new AnnonceRepo($this->connexion) );
+        $this->setCommentaireRepo( new CommentaireRepo($this->connexion) );
+        $this->setPhotoRepo( new PhotoRepo($this->connexion) );
+        $this->setUserRepo( new UserRepo($this->connexion) );
+        $this->setUserTypeRepo( new UserTypeRepo($this->connexion) );
+        $this->setReservationRepo( new ReservationRepo($this->connexion) );
+        $this->setLogementTypeRepo( new LogementTypeRepo($this->connexion) );
 
     }
 
@@ -38,12 +38,6 @@ class DbManager {
     }
     public function setCommentaireRepo($commentaireRepo){
         $this->commentaireRepo = $commentaireRepo;
-    }
-    public function getLocationRepo(){
-        return $this->locationRepo;
-    }
-    public function setLocationRepo($locationRepo){
-        $this->locationRepo = $locationRepo;
     }
     public function getPhotoRepo(){
         return $this->photoRepo;
@@ -68,5 +62,11 @@ class DbManager {
     }
     public function setReservationRepo($reservationRepo){
         $this->reservationRepo = $reservationRepo;
+    }
+    public function getLogementTypeRepo(){
+        return $this->logementTypeRepo;
+    }
+    public function setLogementTypeRepo($logementTypeRepo){
+        $this->logementTypeRepo = $logementTypeRepo;
     }
 }

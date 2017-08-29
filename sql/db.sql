@@ -303,3 +303,20 @@ INSERT INTO favoris VALUES
 (8,3,1),
 (9,3,2);
 UNLOCK TABLES;
+
+insert into reservation values
+(1, 1, 1, "2017-09-09", "2017-09-25"),
+(2, 2, 1, "2017-09-27", "2017-10-02"),
+(3, 5, 3, "2017-10-09", "2017-10-25"),
+(4, 5, 3, "2017-09-09", "2017-09-25"),
+(5, 2, 2, "2017-09-27", "2017-10-02"),
+(6, 1, 2, "2017-10-09", "2017-10-25");
+
+
+
+
+user_id INT NOT NULL,
+    annonce_id INT NOT NULL,
+    date_debut date NOT NULL,
+    date_fin date NOT NULL
+    

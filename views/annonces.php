@@ -16,7 +16,7 @@
                         <div id="carousel" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="item active align-middle">
-                                    <img class="img-rounded " alt="" src="<?= $value["photos"][0]["photo_path"] ?>">
+                                    <img class="img-rounded " alt="" src="<?php if(!empty($value["photos"][0]["photo_path"])){ echo $value["photos"][0]["photo_path"]; } ?>">
                                 </div>
                                 <?php 
                                 foreach( $value["photos"] as $key => $val){
@@ -29,12 +29,6 @@
                                 } 
                                 ?>
                             </div>
-                            <a class="left carousel-control" href="#carousel" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left"></span>
-                            </a>
-                            <a class="right carousel-control" href="#carousel" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right"></span>
-                            </a>
                         </div>
                         
                     </div>

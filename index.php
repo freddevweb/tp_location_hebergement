@@ -5,21 +5,22 @@ require "autoloader.php";
 
 session_start();
 
-Flight::render('header', array('heading'=>'RBNB'), "header");
+$url = '/2_dev_idem/php/tp_fred_le_grand_final/tp_location_hebergement/';
+Flight::render('header', array('heading'=>'RBNB', 'url'=>$url), "header");
 Flight::render('footer', array('traduction'=>'cool'), "footer");
 if( isset($_SESSION["type"]) ){
     switch($_SESSION["type"]){
         case 1:
-            Flight::render('navAdmin', array('url'=>'/2_dev_idem/php/tp_fred_le_grand_final/tp_location_hebergement/'), "nav");
+            Flight::render('navAdmin', array('url'=>$url), "nav");
             break;
         case 2:
-            Flight::render('navControleur', array('url'=>'/2_dev_idem/php/tp_fred_le_grand_final/tp_location_hebergement/'), "nav");
+            Flight::render('navControleur', array('url'=>$url), "nav");
             break;
         case 3:
-            Flight::render('navRender', array('url'=>'/2_dev_idem/php/tp_fred_le_grand_final/tp_location_hebergement/'), "nav");
+            Flight::render('navRender', array('url'=>$url), "nav");
             break;
         case 4:
-            Flight::render('navUser', array('url'=>'/2_dev_idem/php/tp_fred_le_grand_final/tp_location_hebergement/'), "nav");
+            Flight::render('navUser', array('url'=>$url), "nav");
             break;
     }
 }
@@ -93,30 +94,57 @@ Flight::route('/annoncesRender', function(){
 
 // ##############################################################
 Flight::route('/annoncesAll', function(){
-
     $db = new DbManager();
     $annonceRepo = $db->getAnnonceRepo();
-    $annonce = $annonceRepo->getAnnonces();
+    $logementType = $db->getLogementTypeRepo()->getType();
+    if(array_key_exists("reset", $_POST)){
+        unset($_POST);
+    }
+    if(!empty($_POST)){
+        $dataForm = $_POST;
+        $annonce = $annonceRepo->getAnnoncesSearch($_POST);
+        if(empty($annonce)){
+            $annonce = "Il n'y a pas de locations avec vos paramètres de recherche !";
+        }
+    }
+    else {
+        $dataForm = [];
+        $annonce = $annonceRepo->getAnnonces();
+    }
 
     Flight::render('annoncesAll', array(
-        "annonce" => $annonce
+        "annonce" => $annonce,
+        "type"=> $logementType,
+        "dataForm"=>$dataForm
     ));
-
 
 });
 
 // ##############################################################
 Flight::route('/detail/@id', function($id){
+    if( isset( $_SESSION["retour"]) ){
+        $retour = $_SESSION["retour"];
+    }
+    else{
+        $retour="";
+    }
 
     $db = new DbManager();
     $annonceRepo = $db->getAnnonceRepo();
     $annonce = $annonceRepo->getAnnonceById($id);
+    
+    $reservationRepo = $db->getReservationRepo();
+    $dates = $reservationRepo->createJsonResa($id);
 
     Flight::render('annonceDetail', array(
-        "annonce"=>$annonce
+        "annonce"=>$annonce,
+        "dates"=> $dates,
+        "retour"=>$retour
     ));
     
-
+    if( isset( $_SESSION["retour"]) ){
+        unset( $_SESSION["retour"] );
+    }
 });
 
 // ##############################################################

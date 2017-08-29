@@ -1,63 +1,47 @@
 <?php
 
-    require "../models/Connexion.php";
-    require "../models/DbManager.php";
-    require "../models/Annonce.php";
-    require "../models/AnnonceRepo.php";
-    require "../models/Commentaire.php";
-    require "../models/CommentaireRepo.php";
-    require "../models/Location.php";
-    require "../models/LocationRepo.php";
-    require "../models/Photo.php";
-    require "../models/PhotoRepo.php";
-    require "../models/User.php";
-    require "../models/UserRepo.php";
-    require "../models/UserType.php";
-    require "../models/UserTypeRepo.php";
-    require "../models/Reservation.php";
-    require "../models/ReservationRepo.php";
+    require "autoloader1.php";
 
     session_start();
 
+    $retour = array();
+    $errorStart = '<p class="has-error text-center"><span class="help-block">';
+    $successStart = '<p class="has-success text-center"><span class="help-block">';
+    $end = '</span></p>';
 
-
-
-    $error = array();
-
-    if(empty($_POST("arrivee"))){
-        $error="";
+    if( empty( $_POST["quoi"] ) ){
+        $retour=$errorStart."Connectez vous ou enregistrez vous";
+    }
+    if(empty($_POST["arrivee"])){
+        $retour=$errorStart."Veuillez renseigner une date d'arrivée";
+    }
+    if(empty($_POST["depart"])){
+        $retour=$errorStart."Veuillez renseigner une date de départ";
+    }
+    if($_POST["arrivee"] > $_POST["depart"] ){
+        $retour=$errorStart."La date de départ doit être suppérieure à la date d'arrivée";
     }
 
-    if(empty($_POST("depart"))){
-        $error="";
-    }
+    if(empty($retour)){
 
-    if($_POST("depart") > $_POST("depart") ){
-        $error="";
-    }
-    if(!empty($_POST("depart")) && !empty($_POST("depart")) ){
-
-
+        $db = new DbManager();
         $newResa = new Reservation();
         $newResa->setAnnonceId(htmlspecialchars( $_POST["quoi"] )) ; 
         $newResa->setUserId(htmlspecialchars( $_SESSION["id"] ));
         $newResa->setDateDebut(htmlspecialchars( $_POST["arrivee"] ));
         $newResa->setDateFin(htmlspecialchars( $_POST["depart"] ));
-        $newResa->save($db);
-
-
-
-
-
-
-
-
-
-
-
-
-
+        $confirmResa = $newResa->save($db);
+        if($confirmResa == false){
+            $retour = $errorStart."Les dates souhaitées viennent d'être réservées à l'instant.";
+        }
+        else{
+            $retour = $successStart.'<p class="has-success text-center"><span class="help-block">Réservation validée.</span></p>';
+        }
     }
+
+    $_SESSION['retour'] = $retour.$end;
+    
+    $link = 'Location:../detail/'.$_POST["quoi"];
 
     header($link);
 

@@ -212,7 +212,6 @@ class AnnonceRepo {
                 if( $value["id"] == $val["annonce_id"]){
 
                     $value["photos"][] = $val;
-
                 }
             }
         }
@@ -231,47 +230,97 @@ class AnnonceRepo {
     }
 
 
-    public function getAnnoncesSearch( Annonce $annonce){
+    public function getAnnoncesSearch($array){
+        // check de ce qu'il faut pas prendre si date de réservations entrées
+        if (array_key_exists("arrivee", $array) && array_key_exists("depart", $array)){
+            $querySel = "SELECT annonce_id  FROM reservation WHERE ";
+            $queryResaArray = array();
+            $queryResaEnd = " GROUP BY annonce_id";
 
-        $queryAnn = "SELECT id, titre, tarif, capacite  FROM annonce WHERE statut_id = 1 order by id asc";
-        $valuesAnn = array(
-            'id'=>$annonce->getId(),
-            'userId'=>$annonce->getUserId(),
-            'titre'=>$annonce->getTitre(),
-            'typeLogementId'=>$annonce->getTypeLogementId(),
-            'tarif'=>$annonce->getTarif(),
-            'surface'=>$annonce->getSurface(),
-            'nbreChambre'=>$annonce->getNbreChambre(),
-            'nbrePieces'=>$annonce->getNbrePieces(),
-            'description'=>$annonce->getDescription(),
-            'codePostal'=>$annonce->getCodePostal(),
-            'ville'=>$annonce->getVille(),
-            'capacite'=>$annonce->getCapacite(),
-            'arriveeDebut'=>$annonce->getArriveeDebut(),
-            'arriveeFin'=>$annonce->getArriveeFin(),
-            'fumeur'=>$annonce->getFumeur(),
-            'television'=>$annonce->getTelevision(),
-            'chauffage'=>$annonce->getChauffage(),
-            'climatisation'=>$annonce->getClimatisation(),
-            'sdb'=>$annonce->getSdb(),
-            'parking'=>$annonce->getParking(),
-            'laveLinge'=>$annonce->getLaveLinge(),
-            'wifi'=>$annonce->getWifi(),
-            'hDepart'=>$annonce->getHDepart()
-        );
+            $queryResaArray["date_debut"]= ":arrivee";
+            $valueResaArrivee = '"'.$array["arrivee"].'"' ;
+        
+            $queryResaArray["date_fin"] = ":depart";
+            $valueResaDepart = '"'.$array["depart"].'"' ;
+            
+            $querySel .= '(date_debut <= '.$valueResaArrivee.' AND date_fin > '.$valueResaArrivee.' AND date_fin < '.$valueResaDepart.')';
+            $querySel .= ' OR (date_debut > '.$valueResaArrivee.' AND date_debut < '.$valueResaDepart.' AND date_fin >= '.$valueResaDepart.')';
+            $querySel .= ' OR (date_debut >= '.$valueResaArrivee.' AND date_fin <= '.$valueResaDepart.')';
+            $querySel .= ' OR (date_debut < '.$valueResaArrivee.' AND date_fin > '.$valueResaDepart.')';
+            
+            $querySel .=$queryResaEnd;
+        }
+
+        // selection des annonces
+        $queryAnnStart ="SELECT id, titre, tarif, capacite FROM annonce WHERE statut_id = 1 ";
+        $queryAnnEnd = " AND id NOT IN (".$querySel.") ORDER BY id";
+        
+        $queryAnnArray = array();
+        $valueAnnArray =array();
+        $queryFavArray = array();
+        $valueFavArray =array();
+
+        if(array_key_exists("ville", $array)){
+            $queryAnnArray[]= "ville = :ville"; 
+            $valueAnnArray["ville"] = $array["ville"] ;
+        }
+        if(array_key_exists("type", $array)){
+            $queryAnnArray[]= "type_logement_id = :type";
+            $valueAnnArray["type"] = $array["type"] ;
+        }
+        if(array_key_exists("fumeur", $array)){
+            $queryAnnArray[]= "fumeur = :fumeur";
+            $valueAnnArray["fumeur"] = 1 ;
+        }
+        if(array_key_exists("television", $array)){
+            $queryAnnArray[]= "television = :television"; 
+            $valueAnnArray["television"] = 1 ;
+        }
+        if(array_key_exists("chaufage", $array)){
+            $queryAnnArray[]= "chauffage = :chaufage";
+            $valueAnnArray["chaufage"] = 1 ;
+        }
+        if(array_key_exists("climatisation", $array)){
+            $queryAnnArray[]= "climatisation = :climatisation";
+            $valueAnnArray["climatisation"] = 1 ;
+        }
+        if(array_key_exists("sdb", $array)){
+            $queryAnnArray[]= "sdb = :sdb";
+            $valueAnnArray["sdb"] = 1 ;
+        }
+        if(array_key_exists("parking", $array)){
+            $queryAnnArray[]= "parking = :parking";
+            $valueAnnArray["parking"] = 1 ;
+        }
+        if(array_key_exists("laveLinge", $array)){
+            $queryAnnArray[]= "laveLinge = :laveLinge";
+            $valueAnnArray["laveLinge"] = 1 ;
+        }
+        if(array_key_exists("wifi", $array)){
+            $queryAnnArray[]= "wifi = :wifi";
+            $valueAnnArray["wifi"] = 1 ;
+        }
+        
+        $queryAnn = $queryAnnStart;
+
+        foreach($queryAnnArray as $value){
+            $queryAnn .= ' and '.$value;
+        }
+        $queryAnn .= $queryAnnEnd;
+
         $objetAnn = $this->connexion->prepare($queryAnn);
-        $objetAnn->execute($valuesAnn);
-        $annonce = $objetAnn->fetchAll(PDO::FETCH_ASSOC);
+        $objetAnn->execute($valueAnnArray);
+        $annonces = $objetAnn->fetchAll(PDO::FETCH_ASSOC);
 
-        $queryPhoto = "SELECT *  FROM photo order by annonce_id, type_id  ";
-        $valuesPhoto = array(   
-
-        );
+        // sélection des potos correspondantes
+        $queryPhoto = "SELECT * FROM photo WHERE annonce_id NOT IN (".$querySel.") order by annonce_id, type_id";
+        $valuesPhoto = array(   );
         $objetPhoto = $this->connexion->prepare($queryPhoto);
         $objetPhoto->execute($valuesPhoto);
         $photo = $objetPhoto->fetchAll(PDO::FETCH_ASSOC);
-
-        $queryFav = "SELECT annonce_id, count(annonce_id) from favoris group by annonce_id order by annonce_id";
+        
+        // ajout d'une colone favoris
+        $queryFav = "SELECT annonce_id, count(annonce_id) from favoris where annonce_id NOT IN (".$querySel.") group by annonce_id order by annonce_id";
         $valuesFav = array(   );
         $objetFav = $this->connexion->prepare($queryFav);
         $objetFav->execute($valuesFav);
@@ -279,7 +328,8 @@ class AnnonceRepo {
         
         $tableauAnnFav = array();
 
-        foreach($annonce as $key => $value){
+        foreach($annonces as $key => $value){
+
             foreach($fav as $key1 => $value1){
                 if( $value["id"] == $value1["annonce_id"]){
                     $value["count"] = $value1["count(annonce_id)"];
@@ -306,18 +356,50 @@ class AnnonceRepo {
             }
         }
 
-        usort($tableauAnnFav, function($a, $b){
-            if ($a["count"] == $b["count"]) {
-                return 0;
+        if(array_key_exists("classement", $array)){
+
+            switch ($array["classement"]){
+                case "pc" :
+                    usort($tableauAnnFav, function($a, $b){
+                        if ($a["tarif"] == $b["tarif"]) {
+                            return 0;
+                        }
+                        return ($a["tarif"] < $b["tarif"]) ? -1 : 1;
+                    });
+                    break;
+                case "pd" :
+                    usort($tableauAnnFav, function($a, $b){
+                        if ($a["tarif"] == $b["tarif"]) {
+                            return 0;
+                        }
+                        return ($a["tarif"] < $b["tarif"]) ? 1 : -1;
+                    });
+                    break;
+                case "fc":
+                    usort($tableauAnnFav, function($a, $b){
+                        if ($a["tarif"] == $b["tarif"]) {
+                            return 0;
+                        }
+                        return ($a["tarif"] < $b["tarif"]) ? -1 : 1;
+                    });
+                    break;
+                case "fd":
+                    usort($tableauAnnFav, function($a, $b){
+                        if ($a["tarif"] == $b["tarif"]) {
+                            return 0;
+                        }
+                        return ($a["tarif"] < $b["tarif"]) ? 1 : -1;
+                    });
+                    break;
             }
-            return ($a["count"] < $b["count"]) ? 1 : -1;
-        });
+        }
 
         if (!empty($tableauAnnFav)){
+
             return $tableauAnnFav;
+
         }
+
         return FALSE;
     }
-
-
 }

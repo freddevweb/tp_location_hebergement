@@ -210,5 +210,8 @@ class Annonce {
         return $dbmanager->getAnnonceRepo()->saveAnnonce( $this );
     }
 
+    public function searchAnnonces(DbManager $dbmanager){
+        $dbmanager->getAnnonceRepo()->saveAnnonce( $this );
+    }
 
 }

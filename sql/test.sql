@@ -4,14 +4,15 @@ select * from user;
 select * from photo;
 select * from photo_type;
 select * from annonce;
-select * from statut;
+select * from reservation;
 
 SELECT * FROM user left join user_type on user_type.id = user.type_id  ORDER BY pseudo;
+update annonce set statut_id = 1 where id =4;
+delete from photo where id = 4;
 
-delete from photo where id = 3;
-
-select * from annonce;
-
+SELECT id 
+FROM annonce 
+WHERE statut_id = 1 , ville = :ville, type_logement_id = :type, fumeur = :fumeur, television = :television, chauffage = :chaufage, climatisation = :climatisation, sdb = :sdb, parking = :parking, laveLinge = :laveLinge, wifi = :wifi, prix = :prix;
 
 SELECT annonce_id, count(annonce_id) from favoris group by annonce_id order by annonce_id;
 

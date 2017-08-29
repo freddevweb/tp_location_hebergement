@@ -1,6 +1,6 @@
 <?php
 
-class Photo {
+class Reservation {
     
     private $id;
     private $annonceId;
@@ -69,12 +69,12 @@ class Photo {
     // *********** methodes
     
     public function save(DbManager $dbmanager){
-        $check = $dbmanager->getPhotoRepo()->checkResa( $this );
+        $check = $dbmanager->getReservationRepo()->checkResa( $this );
 
-        if($check == 1 ){
-            $dbmanager->getPhotoRepo()->saveResa( $this );
+        if($check == false ){
+            return $dbmanager->getReservationRepo()->saveResa( $this );
         }
-
+        return false;
     }
 
 }

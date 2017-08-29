@@ -12,7 +12,7 @@
             <div class="btn-group"> 
                 <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown"> Accounts </a>
                 <ul class="dropdown-menu">
-                    <li><a href="accounts">Acount</a></li>
+                    <li><a href="<?=$url?>accounts">Acount</a></li>
                     <li class="divider"></li>
                     <li><a href="#">Usertype</a></li>
                 </ul>
@@ -43,13 +43,13 @@
                     <li><a href="#">Top</a></li>
                 </ul>
             </div>
-            <li> <a class="btn btn-inverse btn-xs" href="annoncesAll">Voyager</a> </li>
+            <li> <a class="btn btn-inverse btn-xs" href="<?=$url?>annoncesAll">Voyager</a> </li>
         </ul>
         <div class="navbar-right navbar-form inline-form">
-            <a href="profil">
+            <a href="<?=$url?>profil">
                 <span class="glyphicon glyphicon-user" title="Votre compte"></span>
             </a>
-            <a href="services/logoutService.php">
+            <a href="<?=$url?>services/logoutService.php">
                 <span class="glyphicon glyphicon-share" title="Logout"></span>
             </a>
         </div>
