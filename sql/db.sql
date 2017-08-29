@@ -315,8 +315,4 @@ insert into reservation values
 
 
 
-user_id INT NOT NULL,
-    annonce_id INT NOT NULL,
-    date_debut date NOT NULL,
-    date_fin date NOT NULL
     

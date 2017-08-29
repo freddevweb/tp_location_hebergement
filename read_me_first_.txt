@@ -23,10 +23,12 @@ complete sheets :
     all accounts type
         start || voyager
         search rent
+        reservation rent
     admin
         accounts / accounts -> search by and modify
     render 
         vos biens
+    
 
 function to see :
     AnnonceRepo/ 
